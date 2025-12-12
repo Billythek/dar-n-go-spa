@@ -1,0 +1,19 @@
+{
+  "easyGoVersion": "1.0",
+  "client": "com.airbnb.android",
+  "logicEntities": [
+    {
+      "head": {
+        "function": "magicwindow",
+        "required": "true"
+      },
+      "body": {
+        "mode":"0",
+        "activityPairs":[
+        ],
+        "transActivities":[
+        ]
+      }
+    }
+  ]
+}

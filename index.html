@@ -1,0 +1,2168 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DarDZ - Locations en Algérie</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=DM+Sans:wght@400;500;600;700&family=Noto+Kufi+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js"></script>
+    <style>
+        :root {
+            --terracotta: #C65D3B;
+            --terracotta-light: #E8A88A;
+            --sand: #F5E6D3;
+            --sand-light: #FBF7F2;
+            --ocean: #1E6B7B;
+            --ocean-deep: #134852;
+            --gold: #C9A227;
+            --gold-light: #E8D48B;
+            --white: #FFFFFF;
+            --charcoal: #2D2D2D;
+            --grey: #6B6B6B;
+            --grey-light: #E5E5E5;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--sand-light);
+            color: var(--charcoal);
+            overflow-x: hidden;
+        }
+
+        /* Geometric Pattern Background */
+        .pattern-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            opacity: 0.03;
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 0L60 30L30 60L0 30L30 0z' fill='%23C65D3B' fill-opacity='1'/%3E%3C/svg%3E");
+            z-index: -1;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, var(--ocean-deep) 0%, var(--ocean) 100%);
+            padding: 15px 20px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 30px rgba(0,0,0,0.15);
+        }
+
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-icon {
+            width: 45px;
+            height: 45px;
+            background: var(--terracotta);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+            font-size: 24px;
+            color: var(--white);
+            transform: rotate(-3deg);
+            box-shadow: 0 4px 15px rgba(198, 93, 59, 0.4);
+        }
+
+        .logo-text {
+            font-family: 'Playfair Display', serif;
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--white);
+            letter-spacing: -0.5px;
+        }
+
+        .logo-text span {
+            color: var(--gold);
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+        }
+
+        .nav-links a {
+            color: var(--white);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 15px;
+            opacity: 0.9;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            opacity: 1;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--gold);
+            transition: width 0.3s;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .btn-host {
+            background: var(--terracotta);
+            color: var(--white);
+            padding: 12px 24px;
+            border-radius: 30px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(198, 93, 59, 0.3);
+        }
+
+        .btn-host:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(198, 93, 59, 0.4);
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, var(--ocean-deep) 0%, var(--ocean) 50%, var(--terracotta) 100%);
+            padding: 60px 20px 100px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='50' cy='50' r='40' stroke='%23ffffff' stroke-width='0.5' fill='none' opacity='0.1'/%3E%3C/svg%3E");
+            opacity: 0.3;
+        }
+
+        .hero-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(36px, 6vw, 64px);
+            color: var(--white);
+            text-align: center;
+            margin-bottom: 15px;
+            line-height: 1.2;
+        }
+
+        .hero-title .highlight {
+            color: var(--gold);
+            position: relative;
+        }
+
+        .hero-subtitle {
+            text-align: center;
+            color: var(--sand);
+            font-size: 18px;
+            margin-bottom: 40px;
+            opacity: 0.9;
+        }
+
+        /* Search Box */
+        .search-container {
+            max-width: 950px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .search-box {
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(20px);
+            border-radius: 60px;
+            padding: 8px;
+            display: flex;
+            align-items: center;
+            box-shadow: 0 25px 70px rgba(0,0,0,0.25), 0 10px 30px rgba(30, 107, 123, 0.15);
+            flex-wrap: wrap;
+            border: 1px solid rgba(255,255,255,0.5);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .search-box:hover {
+            box-shadow: 0 30px 80px rgba(0,0,0,0.3), 0 15px 40px rgba(30, 107, 123, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .search-field {
+            flex: 1;
+            min-width: 150px;
+            padding: 18px 24px;
+            border: none;
+            background: transparent;
+            position: relative;
+            cursor: pointer;
+            border-radius: 50px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .search-field:hover {
+            background: rgba(245, 230, 211, 0.3);
+        }
+
+        .search-field.active {
+            background: var(--white);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.12);
+            z-index: 10;
+        }
+
+        .search-field:not(:last-of-type)::after {
+            content: '';
+            position: absolute;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 1px;
+            height: 35px;
+            background: linear-gradient(to bottom, transparent, var(--grey-light), transparent);
+        }
+
+        .search-field label {
+            display: block;
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--charcoal);
+            margin-bottom: 6px;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            transition: color 0.3s;
+        }
+
+        .search-field:hover label {
+            color: var(--ocean);
+        }
+
+        .search-field input, .search-field select {
+            width: 100%;
+            border: none;
+            font-size: 15px;
+            color: var(--charcoal);
+            font-family: inherit;
+            background: transparent;
+            outline: none;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+
+        .search-field input::placeholder {
+            color: var(--grey);
+            font-weight: 400;
+        }
+
+        .search-field select {
+            cursor: pointer;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1.5L6 6.5L11 1.5' stroke='%236B6B6B' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 0 center;
+            padding-right: 20px;
+        }
+
+        .search-btn {
+            background: linear-gradient(135deg, var(--terracotta) 0%, #B54D2E 100%);
+            color: var(--white);
+            border: none;
+            padding: 18px 28px;
+            border-radius: 50px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            font-family: inherit;
+            box-shadow: 0 8px 24px rgba(198, 93, 59, 0.35);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .search-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(255,255,255,0.2) 0%, transparent 100%);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .search-btn:hover::before {
+            opacity: 1;
+        }
+
+        .search-btn:hover {
+            transform: scale(1.05) translateY(-2px);
+            box-shadow: 0 12px 35px rgba(198, 93, 59, 0.45);
+        }
+
+        .search-btn:active {
+            transform: scale(0.98);
+        }
+
+        .search-btn svg {
+            width: 20px;
+            height: 20px;
+            transition: transform 0.3s;
+        }
+
+        .search-btn:hover svg {
+            transform: rotate(90deg);
+        }
+
+        /* Dropdown Suggestions */
+        .search-dropdown {
+            position: absolute;
+            top: calc(100% + 12px);
+            left: 0;
+            right: 0;
+            background: var(--white);
+            border-radius: 24px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+            padding: 20px;
+            display: none;
+            z-index: 100;
+            animation: dropdownIn 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        @keyframes dropdownIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .search-dropdown.active {
+            display: block;
+        }
+
+        .dropdown-section {
+            margin-bottom: 20px;
+        }
+
+        .dropdown-section:last-child {
+            margin-bottom: 0;
+        }
+
+        .dropdown-title {
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--grey);
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            margin-bottom: 12px;
+        }
+
+        .dropdown-item {
+            padding: 12px 16px;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 4px;
+        }
+
+        .dropdown-item:hover {
+            background: var(--sand);
+            transform: translateX(4px);
+        }
+
+        .dropdown-item-icon {
+            width: 32px;
+            height: 32px;
+            background: var(--sand-light);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            flex-shrink: 0;
+        }
+
+        .dropdown-item-text {
+            flex: 1;
+        }
+
+        .dropdown-item-title {
+            font-weight: 600;
+            color: var(--charcoal);
+            font-size: 14px;
+            margin-bottom: 2px;
+        }
+
+        .dropdown-item-subtitle {
+            font-size: 12px;
+            color: var(--grey);
+        }
+
+        /* Quick Search Chips */
+        .quick-searches {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-top: 16px;
+        }
+
+        .quick-chip {
+            background: linear-gradient(135deg, var(--sand-light) 0%, var(--sand) 100%);
+            border: 1px solid var(--sand);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--charcoal);
+            cursor: pointer;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .quick-chip:hover {
+            background: linear-gradient(135deg, var(--ocean) 0%, var(--ocean-deep) 100%);
+            color: var(--white);
+            border-color: var(--ocean);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(30, 107, 123, 0.3);
+        }
+
+        .quick-chip::before {
+            content: '⚡';
+            font-size: 14px;
+        }
+
+        /* Guests Counter */
+        .guests-counter {
+            position: absolute;
+            top: calc(100% + 12px);
+            right: 0;
+            background: var(--white);
+            border-radius: 24px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+            padding: 24px;
+            display: none;
+            z-index: 100;
+            min-width: 350px;
+            animation: dropdownIn 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .guests-counter.active {
+            display: block;
+        }
+
+        .counter-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 0;
+            border-bottom: 1px solid var(--grey-light);
+        }
+
+        .counter-row:last-child {
+            border-bottom: none;
+        }
+
+        .counter-info h4 {
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--charcoal);
+            margin-bottom: 4px;
+        }
+
+        .counter-info p {
+            font-size: 13px;
+            color: var(--grey);
+        }
+
+        .counter-controls {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .counter-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border: 2px solid var(--grey-light);
+            background: var(--white);
+            color: var(--charcoal);
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .counter-btn:hover:not(:disabled) {
+            border-color: var(--ocean);
+            color: var(--ocean);
+            transform: scale(1.1);
+        }
+
+        .counter-btn:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        .counter-value {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--charcoal);
+            min-width: 24px;
+            text-align: center;
+        }
+
+        /* Date Picker Enhancement */
+        .search-field input[type="date"] {
+            cursor: pointer;
+            position: relative;
+        }
+
+        .search-field input[type="date"]::-webkit-calendar-picker-indicator {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+        /* Categories */
+        .categories {
+            padding: 40px 20px;
+            background: var(--white);
+            border-bottom: 1px solid var(--grey-light);
+        }
+
+        .categories-content {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .categories-scroll {
+            display: flex;
+            gap: 30px;
+            overflow-x: auto;
+            padding: 10px 0;
+            scrollbar-width: none;
+        }
+
+        .categories-scroll::-webkit-scrollbar {
+            display: none;
+        }
+
+        .category-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            opacity: 0.6;
+            transition: all 0.3s;
+            flex-shrink: 0;
+            padding: 10px 15px;
+            border-radius: 12px;
+        }
+
+        .category-item:hover, .category-item.active {
+            opacity: 1;
+            background: var(--sand);
+        }
+
+        .category-item.active {
+            border-bottom: 3px solid var(--terracotta);
+        }
+
+        .category-icon {
+            width: 28px;
+            height: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+
+        .category-label {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--charcoal);
+            white-space: nowrap;
+        }
+
+        /* Main Content */
+        .main {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 32px;
+            color: var(--charcoal);
+        }
+
+        .section-title span {
+            color: var(--terracotta);
+        }
+
+        .view-all {
+            color: var(--ocean);
+            text-decoration: none;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            transition: gap 0.3s;
+        }
+
+        .view-all:hover {
+            gap: 10px;
+        }
+
+        /* Listings Grid */
+        .listings-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+        }
+
+        .listing-card {
+            background: var(--white);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            cursor: pointer;
+        }
+
+        .listing-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+        }
+
+        .listing-image {
+            position: relative;
+            height: 220px;
+            overflow: hidden;
+        }
+
+        .listing-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+
+        .listing-card:hover .listing-image img {
+            transform: scale(1.08);
+        }
+
+        .listing-badge {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background: var(--white);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .listing-badge.gold {
+            background: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 100%);
+            color: var(--charcoal);
+        }
+
+        .listing-favorite {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            width: 36px;
+            height: 36px;
+            background: rgba(255,255,255,0.9);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: none;
+        }
+
+        .listing-favorite:hover {
+            background: var(--white);
+            transform: scale(1.1);
+        }
+
+        .listing-favorite.active svg {
+            fill: var(--terracotta);
+            stroke: var(--terracotta);
+        }
+
+        .listing-favorite svg {
+            width: 20px;
+            height: 20px;
+            stroke: var(--charcoal);
+            fill: none;
+            stroke-width: 2;
+            transition: all 0.3s;
+        }
+
+        .listing-info {
+            padding: 20px;
+        }
+
+        .listing-location {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 13px;
+            color: var(--grey);
+            margin-bottom: 5px;
+        }
+
+        .listing-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--charcoal);
+            margin-bottom: 8px;
+        }
+
+        .listing-details {
+            font-size: 14px;
+            color: var(--grey);
+            margin-bottom: 12px;
+        }
+
+        .listing-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .listing-price {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--charcoal);
+        }
+
+        .listing-price span {
+            font-size: 14px;
+            font-weight: 400;
+            color: var(--grey);
+        }
+
+        .listing-rating {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .listing-rating svg {
+            width: 16px;
+            height: 16px;
+            fill: var(--gold);
+        }
+
+        /* Wilayas Section */
+        .wilayas-section {
+            padding: 60px 20px;
+            background: linear-gradient(180deg, var(--sand-light) 0%, var(--sand) 100%);
+        }
+
+        .wilayas-content {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .wilayas-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+        }
+
+        @media (max-width: 1024px) {
+            .wilayas-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 600px) {
+            .wilayas-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .wilaya-card {
+            position: relative;
+            height: 200px;
+            border-radius: 20px;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .wilaya-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+
+        .wilaya-card:hover img {
+            transform: scale(1.1);
+        }
+
+        .wilaya-card::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 60%;
+            background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
+        }
+
+        .wilaya-info {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            z-index: 1;
+            color: var(--white);
+        }
+
+        .wilaya-name {
+            font-family: 'Playfair Display', serif;
+            font-size: 22px;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .wilaya-count {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        .wilaya-card.featured {
+            grid-column: span 2;
+            grid-row: span 2;
+            height: auto;
+        }
+
+        /* Features Section */
+        .features-section {
+            padding: 80px 20px;
+            background: var(--ocean-deep);
+            color: var(--white);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .features-section::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, var(--terracotta) 0%, transparent 70%);
+            opacity: 0.1;
+        }
+
+        .features-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .features-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 42px;
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .features-title span {
+            color: var(--gold);
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 40px;
+        }
+
+        @media (max-width: 900px) {
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .feature-card {
+            text-align: center;
+            padding: 30px;
+        }
+
+        .feature-icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 20px;
+        }
+
+        .feature-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 22px;
+            margin-bottom: 15px;
+        }
+
+        .feature-desc {
+            color: var(--sand);
+            opacity: 0.8;
+            line-height: 1.6;
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--charcoal);
+            color: var(--white);
+            padding: 60px 20px 30px;
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        @media (max-width: 900px) {
+            .footer-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        .footer-brand {
+            font-family: 'Playfair Display', serif;
+            font-size: 32px;
+            margin-bottom: 15px;
+        }
+
+        .footer-brand span {
+            color: var(--gold);
+        }
+
+        .footer-desc {
+            color: var(--grey);
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .footer-title {
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: var(--white);
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 12px;
+        }
+
+        .footer-links a {
+            color: var(--grey);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: var(--gold);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255,255,255,0.1);
+            padding-top: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .footer-copy {
+            color: var(--grey);
+            font-size: 14px;
+        }
+
+        .payment-methods {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .payment-methods span {
+            font-size: 13px;
+            color: var(--grey);
+        }
+
+        .payment-methods img {
+            height: 25px;
+            opacity: 0.7;
+            transition: opacity 0.3s;
+        }
+
+        .payment-methods img:hover {
+            opacity: 1;
+        }
+
+        /* Mobile Nav */
+        .mobile-nav {
+            display: none;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: var(--white);
+            padding: 10px 20px 25px;
+            box-shadow: 0 -5px 30px rgba(0,0,0,0.1);
+            z-index: 1000;
+        }
+
+        @media (max-width: 768px) {
+            .mobile-nav {
+                display: flex;
+                justify-content: space-around;
+            }
+            .nav-links {
+                display: none;
+            }
+            .search-box {
+                flex-direction: column;
+            }
+            .search-field::after {
+                display: none;
+            }
+            body {
+                padding-bottom: 80px;
+            }
+        }
+
+        .mobile-nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+            text-decoration: none;
+            color: var(--grey);
+            font-size: 11px;
+            transition: color 0.3s;
+        }
+
+        .mobile-nav-item.active {
+            color: var(--terracotta);
+        }
+
+        .mobile-nav-item img {
+            width: 26px;
+            height: 26px;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-in {
+            animation: fadeInUp 0.6s ease forwards;
+        }
+
+        .listing-card {
+            opacity: 0;
+            animation: fadeInUp 0.6s ease forwards;
+        }
+
+        .listing-card:nth-child(1) { animation-delay: 0.1s; }
+        .listing-card:nth-child(2) { animation-delay: 0.2s; }
+        .listing-card:nth-child(3) { animation-delay: 0.3s; }
+        .listing-card:nth-child(4) { animation-delay: 0.4s; }
+        .listing-card:nth-child(5) { animation-delay: 0.5s; }
+        .listing-card:nth-child(6) { animation-delay: 0.6s; }
+
+        /* Modal */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.6);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal {
+            background: var(--white);
+            border-radius: 24px;
+            max-width: 900px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            animation: modalIn 0.4s ease;
+        }
+
+        @keyframes modalIn {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .modal-header {
+            position: relative;
+            height: 350px;
+        }
+
+        .modal-header img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 40px;
+            height: 40px;
+            background: var(--white);
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+
+        .modal-body {
+            padding: 30px;
+        }
+
+        .modal-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        .modal-location {
+            color: var(--grey);
+            margin-bottom: 20px;
+        }
+
+        .modal-features {
+            display: flex;
+            gap: 30px;
+            padding: 20px 0;
+            border-top: 1px solid var(--grey-light);
+            border-bottom: 1px solid var(--grey-light);
+            margin-bottom: 20px;
+        }
+
+        .modal-feature {
+            text-align: center;
+        }
+
+        .modal-feature-value {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--ocean);
+        }
+
+        .modal-feature-label {
+            font-size: 13px;
+            color: var(--grey);
+        }
+
+        .modal-desc {
+            line-height: 1.8;
+            color: var(--charcoal);
+            margin-bottom: 30px;
+        }
+
+        .modal-price {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-price-value {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--terracotta);
+        }
+
+        .modal-price-value span {
+            font-size: 16px;
+            color: var(--grey);
+            font-weight: 400;
+        }
+
+        .btn-reserve {
+            background: linear-gradient(135deg, var(--terracotta) 0%, #A84D2E 100%);
+            color: var(--white);
+            border: none;
+            padding: 18px 40px;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: inherit;
+            transition: all 0.3s;
+        }
+
+        .btn-reserve:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(198, 93, 59, 0.4);
+        }
+
+        /* Loading Animation */
+        .loader {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: var(--sand-light);
+            z-index: 9999;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+
+        .loader.active {
+            display: flex;
+        }
+
+        .loader-animation {
+            width: 120px;
+            height: 120px;
+        }
+
+        .loader-text {
+            font-family: 'Playfair Display', serif;
+            font-size: 24px;
+            color: var(--ocean);
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="pattern-bg"></div>
+
+    <!-- Loader -->
+    <div class="loader" id="loader">
+        <div class="loader-animation" id="loader-anim"></div>
+        <div class="loader-text">DarDZ</div>
+    </div>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <div class="logo">
+                <div class="logo-icon">D</div>
+                <div class="logo-text">Dar<span>DZ</span></div>
+            </div>
+            <nav class="nav-links">
+                <a href="#">Séjours</a>
+                <a href="#">Expériences</a>
+                <a href="#">Wilayas</a>
+                <a href="#" class="btn-host">Devenir hôte</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1 class="hero-title">
+                Découvrez l'<span class="highlight">Algérie</span><br>autrement
+            </h1>
+            <p class="hero-subtitle">Des séjours uniques dans les plus belles wilayas du pays</p>
+
+            <div class="search-container">
+                <div class="search-box">
+                    <div class="search-field" id="destination-field" onclick="toggleDestinationDropdown()">
+                        <label>Destination</label>
+                        <select id="destination-select" onchange="updateDestinationText()">
+                            <option value="">Toutes les wilayas</option>
+                            <option value="Alger">Alger</option>
+                            <option value="Oran">Oran</option>
+                            <option value="Constantine">Constantine</option>
+                            <option value="Annaba">Annaba</option>
+                            <option value="Béjaïa">Béjaïa</option>
+                            <option value="Tlemcen">Tlemcen</option>
+                            <option value="Sétif">Sétif</option>
+                            <option value="Batna">Batna</option>
+                            <option value="Blida">Blida</option>
+                            <option value="Tizi Ouzou">Tizi Ouzou</option>
+                            <option value="Tipaza">Tipaza</option>
+                            <option value="Jijel">Jijel</option>
+                            <option value="Skikda">Skikda</option>
+                            <option value="Mostaganem">Mostaganem</option>
+                            <option value="Chlef">Chlef</option>
+                            <option value="Médéa">Médéa</option>
+                            <option value="Ghardaïa">Ghardaïa</option>
+                            <option value="Tamanrasset">Tamanrasset</option>
+                            <option value="Djelfa">Djelfa</option>
+                            <option value="Ouargla">Ouargla</option>
+                        </select>
+                    </div>
+                    <div class="search-field" onclick="this.querySelector('input').focus()">
+                        <label>Arrivée</label>
+                        <input type="date" id="checkin-date" placeholder="Ajouter une date">
+                    </div>
+                    <div class="search-field" onclick="this.querySelector('input').focus()">
+                        <label>Départ</label>
+                        <input type="date" id="checkout-date" placeholder="Ajouter une date">
+                    </div>
+                    <div class="search-field" id="guests-field" onclick="toggleGuestsCounter()">
+                        <label>Voyageurs</label>
+                        <input type="text" id="guests-display" value="2 voyageurs" readonly style="cursor: pointer;">
+                    </div>
+                    <button class="search-btn" onclick="performSearch()">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="11" cy="11" r="8"></circle>
+                            <path d="M21 21l-4.35-4.35"></path>
+                        </svg>
+                        Rechercher
+                    </button>
+                </div>
+
+                <!-- Destination Dropdown -->
+                <div class="search-dropdown" id="destination-dropdown">
+                    <div class="dropdown-section">
+                        <div class="dropdown-title">Destinations populaires</div>
+                        <div class="dropdown-item" onclick="selectDestination('Alger')">
+                            <div class="dropdown-item-icon">🏛️</div>
+                            <div class="dropdown-item-text">
+                                <div class="dropdown-item-title">Alger</div>
+                                <div class="dropdown-item-subtitle">1,234 logements disponibles</div>
+                            </div>
+                        </div>
+                        <div class="dropdown-item" onclick="selectDestination('Oran')">
+                            <div class="dropdown-item-icon">🌊</div>
+                            <div class="dropdown-item-text">
+                                <div class="dropdown-item-title">Oran</div>
+                                <div class="dropdown-item-subtitle">856 logements disponibles</div>
+                            </div>
+                        </div>
+                        <div class="dropdown-item" onclick="selectDestination('Constantine')">
+                            <div class="dropdown-item-icon">🌉</div>
+                            <div class="dropdown-item-text">
+                                <div class="dropdown-item-title">Constantine</div>
+                                <div class="dropdown-item-subtitle">542 logements disponibles</div>
+                            </div>
+                        </div>
+                        <div class="dropdown-item" onclick="selectDestination('Béjaïa')">
+                            <div class="dropdown-item-icon">🏖️</div>
+                            <div class="dropdown-item-text">
+                                <div class="dropdown-item-title">Béjaïa</div>
+                                <div class="dropdown-item-subtitle">423 logements disponibles</div>
+                            </div>
+                        </div>
+                        <div class="dropdown-item" onclick="selectDestination('Tamanrasset')">
+                            <div class="dropdown-item-icon">🏜️</div>
+                            <div class="dropdown-item-text">
+                                <div class="dropdown-item-title">Tamanrasset</div>
+                                <div class="dropdown-item-subtitle">156 logements disponibles</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="dropdown-section">
+                        <div class="dropdown-title">Recherches rapides</div>
+                        <div class="quick-searches">
+                            <div class="quick-chip" onclick="quickSearch('weekend-alger')">Ce weekend à Alger</div>
+                            <div class="quick-chip" onclick="quickSearch('vacances-bejaia')">Vacances à Béjaïa</div>
+                            <div class="quick-chip" onclick="quickSearch('sahara')">Aventure au Sahara</div>
+                            <div class="quick-chip" onclick="quickSearch('montagne')">Montagne</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Guests Counter -->
+                <div class="guests-counter" id="guests-counter">
+                    <div class="counter-row">
+                        <div class="counter-info">
+                            <h4>Adultes</h4>
+                            <p>13 ans et plus</p>
+                        </div>
+                        <div class="counter-controls">
+                            <button class="counter-btn" onclick="updateGuests('adults', -1)" id="adults-minus">-</button>
+                            <span class="counter-value" id="adults-count">2</span>
+                            <button class="counter-btn" onclick="updateGuests('adults', 1)" id="adults-plus">+</button>
+                        </div>
+                    </div>
+                    <div class="counter-row">
+                        <div class="counter-info">
+                            <h4>Enfants</h4>
+                            <p>2 à 12 ans</p>
+                        </div>
+                        <div class="counter-controls">
+                            <button class="counter-btn" onclick="updateGuests('children', -1)" id="children-minus">-</button>
+                            <span class="counter-value" id="children-count">0</span>
+                            <button class="counter-btn" onclick="updateGuests('children', 1)" id="children-plus">+</button>
+                        </div>
+                    </div>
+                    <div class="counter-row">
+                        <div class="counter-info">
+                            <h4>Bébés</h4>
+                            <p>Moins de 2 ans</p>
+                        </div>
+                        <div class="counter-controls">
+                            <button class="counter-btn" onclick="updateGuests('babies', -1)" id="babies-minus">-</button>
+                            <span class="counter-value" id="babies-count">0</span>
+                            <button class="counter-btn" onclick="updateGuests('babies', 1)" id="babies-plus">+</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Categories -->
+    <section class="categories">
+        <div class="categories-content">
+            <div class="categories-scroll">
+                <div class="category-item active">
+                    <div class="category-icon">🏠</div>
+                    <div class="category-label">Maisons</div>
+                </div>
+                <div class="category-item">
+                    <div class="category-icon">🏢</div>
+                    <div class="category-label">Appartements</div>
+                </div>
+                <div class="category-item">
+                    <div class="category-icon">🏖️</div>
+                    <div class="category-label">Bord de mer</div>
+                </div>
+                <div class="category-item">
+                    <div class="category-icon">⛰️</div>
+                    <div class="category-label">Montagne</div>
+                </div>
+                <div class="category-item">
+                    <div class="category-icon">🏜️</div>
+                    <div class="category-label">Sahara</div>
+                </div>
+                <div class="category-item">
+                    <div class="category-icon">🏛️</div>
+                    <div class="category-label">Historique</div>
+                </div>
+                <div class="category-item">
+                    <div class="category-icon">🌴</div>
+                    <div class="category-label">Oasis</div>
+                </div>
+                <div class="category-item">
+                    <div class="category-icon">🏡</div>
+                    <div class="category-label">Villas</div>
+                </div>
+                <div class="category-item">
+                    <div class="category-icon">⛺</div>
+                    <div class="category-label">Camping</div>
+                </div>
+                <div class="category-item">
+                    <div class="category-icon">🌊</div>
+                    <div class="category-label">Piscine</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Listings -->
+    <main class="main">
+        <div class="section-header">
+            <h2 class="section-title">Logements <span>populaires</span></h2>
+            <a href="#" class="view-all">Voir tout →</a>
+        </div>
+
+        <div class="listings-grid" id="listings-grid">
+            <!-- Listings will be inserted here -->
+        </div>
+    </main>
+
+    <!-- Wilayas Section -->
+    <section class="wilayas-section">
+        <div class="wilayas-content">
+            <div class="section-header">
+                <h2 class="section-title">Explorer par <span>wilaya</span></h2>
+            </div>
+            <div class="wilayas-grid">
+                <div class="wilaya-card featured">
+                    <img src="https://images.unsplash.com/photo-1583425423320-5a6e2f3e7c4b?w=800" alt="Alger">
+                    <div class="wilaya-info">
+                        <div class="wilaya-name">Alger</div>
+                        <div class="wilaya-count">1,234 logements</div>
+                    </div>
+                </div>
+                <div class="wilaya-card">
+                    <img src="https://images.unsplash.com/photo-1569949380739-d60f6da97ae1?w=600" alt="Oran">
+                    <div class="wilaya-info">
+                        <div class="wilaya-name">Oran</div>
+                        <div class="wilaya-count">856 logements</div>
+                    </div>
+                </div>
+                <div class="wilaya-card">
+                    <img src="https://images.unsplash.com/photo-1548199569-73da099c6c70?w=600" alt="Constantine">
+                    <div class="wilaya-info">
+                        <div class="wilaya-name">Constantine</div>
+                        <div class="wilaya-count">542 logements</div>
+                    </div>
+                </div>
+                <div class="wilaya-card">
+                    <img src="https://images.unsplash.com/photo-1518548419970-58e3b4079ab2?w=600" alt="Béjaïa">
+                    <div class="wilaya-info">
+                        <div class="wilaya-name">Béjaïa</div>
+                        <div class="wilaya-count">423 logements</div>
+                    </div>
+                </div>
+                <div class="wilaya-card">
+                    <img src="https://images.unsplash.com/photo-1509023464722-18d996393ca8?w=600" alt="Tamanrasset">
+                    <div class="wilaya-info">
+                        <div class="wilaya-name">Tamanrasset</div>
+                        <div class="wilaya-count">156 logements</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features -->
+    <section class="features-section">
+        <div class="features-content">
+            <h2 class="features-title">Pourquoi choisir <span>DarDZ</span> ?</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon" id="feature-icon-1"></div>
+                    <h3 class="feature-title">Paiement en DZD</h3>
+                    <p class="feature-desc">Payez en dinars algériens avec CIB, Edahabia ou en espèces. Simple et sans frais cachés.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon" id="feature-icon-2"></div>
+                    <h3 class="feature-title">Hôtes vérifiés</h3>
+                    <p class="feature-desc">Tous nos hôtes sont vérifiés pour garantir la sécurité et la qualité de votre séjour.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon" id="feature-icon-3"></div>
+                    <h3 class="feature-title">Support 24/7</h3>
+                    <p class="feature-desc">Une équipe disponible à tout moment pour vous accompagner dans votre réservation.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-grid">
+                <div>
+                    <div class="footer-brand">Dar<span>DZ</span></div>
+                    <p class="footer-desc">La première plateforme algérienne de location de logements. Découvrez les plus beaux coins du pays.</p>
+                </div>
+                <div>
+                    <h4 class="footer-title">Explorer</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">Alger</a></li>
+                        <li><a href="#">Oran</a></li>
+                        <li><a href="#">Constantine</a></li>
+                        <li><a href="#">Béjaïa</a></li>
+                        <li><a href="#">Sahara</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="footer-title">Hébergement</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">Devenir hôte</a></li>
+                        <li><a href="#">Ressources</a></li>
+                        <li><a href="#">Forum</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="footer-title">À propos</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">Notre histoire</a></li>
+                        <li><a href="#">Carrières</a></li>
+                        <li><a href="#">Contact</a></li>
+                        <li><a href="#">Presse</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <div class="footer-copy">© 2024 DarDZ. Tous droits réservés.</div>
+                <div class="payment-methods">
+                    <span>Paiements acceptés:</span>
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/0c/CIB_Logo.svg/200px-CIB_Logo.svg.png" alt="CIB" onerror="this.style.display='none'">
+                    <span style="background: #004B93; color: white; padding: 3px 8px; border-radius: 4px; font-weight: bold; font-size: 11px;">CIB</span>
+                    <span style="background: #F7941D; color: white; padding: 3px 8px; border-radius: 4px; font-weight: bold; font-size: 11px;">Edahabia</span>
+                    <span style="background: #2D6B4D; color: white; padding: 3px 8px; border-radius: 4px; font-weight: bold; font-size: 11px;">Espèces</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Mobile Nav -->
+    <nav class="mobile-nav">
+        <a href="#" class="mobile-nav-item active">
+            <img src="images/house_selected.webp" alt="Explorer">
+            <span>Explorer</span>
+        </a>
+        <a href="#" class="mobile-nav-item">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+            </svg>
+            <span>Favoris</span>
+        </a>
+        <a href="#" class="mobile-nav-item">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                <polyline points="22,6 12,13 2,6"></polyline>
+            </svg>
+            <span>Messages</span>
+        </a>
+        <a href="#" class="mobile-nav-item">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                <circle cx="12" cy="7" r="4"></circle>
+            </svg>
+            <span>Profil</span>
+        </a>
+    </nav>
+
+    <!-- Modal -->
+    <div class="modal-overlay" id="modal-overlay">
+        <div class="modal">
+            <div class="modal-header">
+                <img id="modal-image" src="" alt="">
+                <button class="modal-close" onclick="closeModal()">✕</button>
+            </div>
+            <div class="modal-body">
+                <h2 class="modal-title" id="modal-title"></h2>
+                <p class="modal-location" id="modal-location"></p>
+                <div class="modal-features">
+                    <div class="modal-feature">
+                        <div class="modal-feature-value" id="modal-guests">4</div>
+                        <div class="modal-feature-label">Voyageurs</div>
+                    </div>
+                    <div class="modal-feature">
+                        <div class="modal-feature-value" id="modal-bedrooms">2</div>
+                        <div class="modal-feature-label">Chambres</div>
+                    </div>
+                    <div class="modal-feature">
+                        <div class="modal-feature-value" id="modal-bathrooms">1</div>
+                        <div class="modal-feature-label">Salle de bain</div>
+                    </div>
+                </div>
+                <p class="modal-desc" id="modal-desc"></p>
+                <div class="modal-price">
+                    <div class="modal-price-value" id="modal-price"></div>
+                    <button class="btn-reserve">Réserver maintenant</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Enhanced Search Bar Functionality
+        let guestCounts = {
+            adults: 2,
+            children: 0,
+            babies: 0
+        };
+
+        // Toggle Destination Dropdown
+        function toggleDestinationDropdown() {
+            const dropdown = document.getElementById('destination-dropdown');
+            const guestsCounter = document.getElementById('guests-counter');
+            const field = document.getElementById('destination-field');
+
+            // Close guests counter
+            guestsCounter.classList.remove('active');
+            document.getElementById('guests-field').classList.remove('active');
+
+            // Toggle dropdown
+            dropdown.classList.toggle('active');
+            field.classList.toggle('active');
+        }
+
+        // Select Destination
+        function selectDestination(destination) {
+            const select = document.getElementById('destination-select');
+            select.value = destination;
+            updateDestinationText();
+            document.getElementById('destination-dropdown').classList.remove('active');
+            document.getElementById('destination-field').classList.remove('active');
+        }
+
+        // Update Destination Display
+        function updateDestinationText() {
+            // Optional: Add visual feedback
+        }
+
+        // Toggle Guests Counter
+        function toggleGuestsCounter() {
+            const counter = document.getElementById('guests-counter');
+            const dropdown = document.getElementById('destination-dropdown');
+            const field = document.getElementById('guests-field');
+
+            // Close destination dropdown
+            dropdown.classList.remove('active');
+            document.getElementById('destination-field').classList.remove('active');
+
+            // Toggle counter
+            counter.classList.toggle('active');
+            field.classList.toggle('active');
+        }
+
+        // Update Guests Count
+        function updateGuests(type, delta) {
+            const currentValue = guestCounts[type];
+            const newValue = Math.max(0, currentValue + delta);
+
+            // Maximum limits
+            const maxValues = { adults: 16, children: 10, babies: 5 };
+            if (newValue > maxValues[type]) return;
+
+            // Minimum 1 adult
+            if (type === 'adults' && newValue < 1) return;
+
+            guestCounts[type] = newValue;
+
+            // Update display
+            document.getElementById(`${type}-count`).textContent = newValue;
+            updateGuestsDisplay();
+            updateGuestsButtons();
+        }
+
+        // Update Guests Display Text
+        function updateGuestsDisplay() {
+            const total = guestCounts.adults + guestCounts.children;
+            let text = '';
+
+            if (total === 1) {
+                text = '1 voyageur';
+            } else {
+                text = `${total} voyageurs`;
+            }
+
+            if (guestCounts.babies > 0) {
+                text += `, ${guestCounts.babies} bébé${guestCounts.babies > 1 ? 's' : ''}`;
+            }
+
+            document.getElementById('guests-display').value = text;
+        }
+
+        // Update Button States
+        function updateGuestsButtons() {
+            // Adults
+            document.getElementById('adults-minus').disabled = guestCounts.adults <= 1;
+            document.getElementById('adults-plus').disabled = guestCounts.adults >= 16;
+
+            // Children
+            document.getElementById('children-minus').disabled = guestCounts.children <= 0;
+            document.getElementById('children-plus').disabled = guestCounts.children >= 10;
+
+            // Babies
+            document.getElementById('babies-minus').disabled = guestCounts.babies <= 0;
+            document.getElementById('babies-plus').disabled = guestCounts.babies >= 5;
+        }
+
+        // Quick Search
+        function quickSearch(type) {
+            const today = new Date();
+            const checkin = document.getElementById('checkin-date');
+            const checkout = document.getElementById('checkout-date');
+
+            switch(type) {
+                case 'weekend-alger':
+                    selectDestination('Alger');
+                    const nextFriday = new Date(today);
+                    nextFriday.setDate(today.getDate() + (5 - today.getDay() + 7) % 7);
+                    const nextSunday = new Date(nextFriday);
+                    nextSunday.setDate(nextFriday.getDate() + 2);
+                    checkin.value = nextFriday.toISOString().split('T')[0];
+                    checkout.value = nextSunday.toISOString().split('T')[0];
+                    break;
+                case 'vacances-bejaia':
+                    selectDestination('Béjaïa');
+                    const weekLater = new Date(today);
+                    weekLater.setDate(today.getDate() + 7);
+                    const twoWeeksLater = new Date(today);
+                    twoWeeksLater.setDate(today.getDate() + 14);
+                    checkin.value = weekLater.toISOString().split('T')[0];
+                    checkout.value = twoWeeksLater.toISOString().split('T')[0];
+                    break;
+                case 'sahara':
+                    selectDestination('Tamanrasset');
+                    break;
+                case 'montagne':
+                    selectDestination('Tizi Ouzou');
+                    break;
+            }
+
+            document.getElementById('destination-dropdown').classList.remove('active');
+            document.getElementById('destination-field').classList.remove('active');
+        }
+
+        // Perform Search
+        function performSearch() {
+            const destination = document.getElementById('destination-select').value;
+            const checkin = document.getElementById('checkin-date').value;
+            const checkout = document.getElementById('checkout-date').value;
+
+            console.log('Searching:', {
+                destination,
+                checkin,
+                checkout,
+                guests: guestCounts
+            });
+
+            // Add visual feedback
+            const btn = document.querySelector('.search-btn');
+            btn.style.transform = 'scale(0.95)';
+            setTimeout(() => {
+                btn.style.transform = '';
+            }, 200);
+
+            // Here you would normally perform the actual search
+            alert(`Recherche: ${destination || 'Toutes les wilayas'}\nArrivée: ${checkin || 'Non spécifié'}\nDépart: ${checkout || 'Non spécifié'}\nVoyageurs: ${guestCounts.adults} adultes, ${guestCounts.children} enfants, ${guestCounts.babies} bébés`);
+        }
+
+        // Close dropdowns when clicking outside
+        document.addEventListener('click', function(event) {
+            const searchContainer = document.querySelector('.search-container');
+            if (!searchContainer.contains(event.target)) {
+                document.getElementById('destination-dropdown').classList.remove('active');
+                document.getElementById('guests-counter').classList.remove('active');
+                document.getElementById('destination-field').classList.remove('active');
+                document.getElementById('guests-field').classList.remove('active');
+            }
+        });
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            updateGuestsDisplay();
+            updateGuestsButtons();
+        });
+
+        // Listings Data
+        const listings = [
+            {
+                id: 1,
+                title: "Villa mauresque avec vue mer",
+                location: "Sidi Fredj, Alger",
+                image: "https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=600",
+                price: 15000,
+                rating: 4.9,
+                reviews: 127,
+                badge: "Coup de cœur",
+                guests: 6,
+                bedrooms: 3,
+                bathrooms: 2,
+                desc: "Magnifique villa de style mauresque avec jardin et piscine privée. Vue imprenable sur la mer Méditerranée. À 5 minutes de la plage."
+            },
+            {
+                id: 2,
+                title: "Appartement moderne centre-ville",
+                location: "Didouche Mourad, Alger",
+                image: "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=600",
+                price: 8000,
+                rating: 4.7,
+                reviews: 89,
+                badge: null,
+                guests: 4,
+                bedrooms: 2,
+                bathrooms: 1,
+                desc: "Appartement entièrement rénové au cœur d'Alger. Proche des restaurants, commerces et transports. Idéal pour les voyages d'affaires."
+            },
+            {
+                id: 3,
+                title: "Maison kabyle traditionnelle",
+                location: "Tizi Ouzou",
+                image: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=600",
+                price: 6500,
+                rating: 4.8,
+                reviews: 64,
+                badge: "Authentique",
+                guests: 5,
+                bedrooms: 2,
+                bathrooms: 1,
+                desc: "Découvrez l'hospitalité kabyle dans cette maison traditionnelle au cœur des montagnes. Calme absolu et nature préservée."
+            },
+            {
+                id: 4,
+                title: "Riad avec terrasse panoramique",
+                location: "Casbah, Alger",
+                image: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=600",
+                price: 12000,
+                rating: 4.9,
+                reviews: 156,
+                badge: "Coup de cœur",
+                guests: 4,
+                bedrooms: 2,
+                bathrooms: 2,
+                desc: "Riad restauré dans la mythique Casbah d'Alger. Terrasse avec vue sur la baie. Architecture traditionnelle et confort moderne."
+            },
+            {
+                id: 5,
+                title: "Bungalow pieds dans l'eau",
+                location: "Tigzirt, Tizi Ouzou",
+                image: "https://images.unsplash.com/photo-1499793983690-e29da59ef1c2?w=600",
+                price: 9500,
+                rating: 4.6,
+                reviews: 78,
+                badge: null,
+                guests: 4,
+                bedrooms: 2,
+                bathrooms: 1,
+                desc: "Bungalow directement sur la plage de Tigzirt. Réveillez-vous avec le bruit des vagues. Parfait pour les amoureux de la mer."
+            },
+            {
+                id: 6,
+                title: "Campement de luxe au Sahara",
+                location: "Djanet, Illizi",
+                image: "https://images.unsplash.com/photo-1542401886-65d6c61db217?w=600",
+                price: 25000,
+                rating: 5.0,
+                reviews: 43,
+                badge: "Expérience unique",
+                guests: 2,
+                bedrooms: 1,
+                bathrooms: 1,
+                desc: "Vivez une expérience inoubliable au cœur du Tassili n'Ajjer. Nuits étoilées, excursions en 4x4 et cuisine traditionnelle touarègue."
+            }
+        ];
+
+        // Render Listings
+        function renderListings() {
+            const grid = document.getElementById('listings-grid');
+            grid.innerHTML = listings.map(listing => `
+                <div class="listing-card" onclick="openModal(${listing.id})">
+                    <div class="listing-image">
+                        <img src="${listing.image}" alt="${listing.title}">
+                        ${listing.badge ? `<div class="listing-badge ${listing.badge === 'Coup de cœur' ? 'gold' : ''}">${listing.badge === 'Coup de cœur' ? '<img src="images/ui_res_pdp_reviews_guestfavoriteheader__left_3d_laurel_gold.webp" style="width:16px;height:16px;margin-right:3px;">' : ''}${listing.badge}</div>` : ''}
+                        <button class="listing-favorite" onclick="event.stopPropagation(); toggleFavorite(this)">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="listing-info">
+                        <div class="listing-location">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                                <circle cx="12" cy="10" r="3"></circle>
+                            </svg>
+                            ${listing.location}
+                        </div>
+                        <h3 class="listing-title">${listing.title}</h3>
+                        <div class="listing-details">${listing.guests} voyageurs · ${listing.bedrooms} chambres · ${listing.bathrooms} sdb</div>
+                        <div class="listing-footer">
+                            <div class="listing-price">${listing.price.toLocaleString()} DZD <span>/ nuit</span></div>
+                            <div class="listing-rating">
+                                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                                ${listing.rating} (${listing.reviews})
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Toggle Favorite
+        function toggleFavorite(btn) {
+            btn.classList.toggle('active');
+        }
+
+        // Modal Functions
+        function openModal(id) {
+            const listing = listings.find(l => l.id === id);
+            if (!listing) return;
+
+            document.getElementById('modal-image').src = listing.image;
+            document.getElementById('modal-title').textContent = listing.title;
+            document.getElementById('modal-location').textContent = listing.location;
+            document.getElementById('modal-guests').textContent = listing.guests;
+            document.getElementById('modal-bedrooms').textContent = listing.bedrooms;
+            document.getElementById('modal-bathrooms').textContent = listing.bathrooms;
+            document.getElementById('modal-desc').textContent = listing.desc;
+            document.getElementById('modal-price').innerHTML = `${listing.price.toLocaleString()} DZD <span>/ nuit</span>`;
+
+            document.getElementById('modal-overlay').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            document.getElementById('modal-overlay').classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        document.getElementById('modal-overlay').addEventListener('click', (e) => {
+            if (e.target.id === 'modal-overlay') closeModal();
+        });
+
+        // Lottie Animations
+        function loadAnimations() {
+            // Loader
+            lottie.loadAnimation({
+                container: document.getElementById('loader-anim'),
+                renderer: 'svg',
+                loop: true,
+                autoplay: true,
+                path: 'animations/n2_spinning_belo_rausch.json'
+            });
+
+            // Feature icons
+            lottie.loadAnimation({
+                container: document.getElementById('feature-icon-1'),
+                renderer: 'svg',
+                loop: true,
+                autoplay: true,
+                path: 'animations/n2_loader_shield_rausch.json'
+            });
+
+            lottie.loadAnimation({
+                container: document.getElementById('feature-icon-2'),
+                renderer: 'svg',
+                loop: true,
+                autoplay: true,
+                path: 'animations/ic_verified_listing_icon_animation.json'
+            });
+
+            lottie.loadAnimation({
+                container: document.getElementById('feature-icon-3'),
+                renderer: 'svg',
+                loop: true,
+                autoplay: true,
+                path: 'animations/n2_loader_heart_rausch.json'
+            });
+        }
+
+        // Category Click
+        document.querySelectorAll('.category-item').forEach(item => {
+            item.addEventListener('click', function() {
+                document.querySelectorAll('.category-item').forEach(i => i.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            loadAnimations();
+            renderListings();
+
+            // Hide loader after content loads
+            setTimeout(() => {
+                document.getElementById('loader').classList.remove('active');
+            }, 2000);
+        });
+
+        // Show loader initially
+        document.getElementById('loader').classList.add('active');
+    </script>
+</body>
+</html>

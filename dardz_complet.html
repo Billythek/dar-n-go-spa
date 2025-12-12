@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DarDZ - Votre Dar en Algérie</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;800&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --terracotta: #C65D3B;
+            --terracotta-dark: #A04828;
+            --mediterranean-blue: #1E6B7B;
+            --sand: #F5E6D3;
+            --gold: #C9A227;
+            --dark: #2C3333;
+            --gray: #E8DFCA;
+            --light-gray: #F5F5F5;
+            --white: #FFFFFF;
+            --font-heading: 'Playfair Display', serif;
+            --font-body: 'Inter', sans-serif;
+        }
+
+        body {
+            font-family: var(--font-body);
+            background: var(--sand);
+            color: var(--dark);
+            line-height: 1.6;
+        }
+
+        /* Navigation */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(135deg, var(--mediterranean-blue), var(--terracotta));
+            padding: 1rem 2rem;
+            z-index: 1000;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+
+        nav {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: var(--font-heading);
+            font-size: 2rem;
+            font-weight: 700;
+            color: white;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: opacity 0.3s;
+        }
+
+        .nav-links a:hover {
+            opacity: 0.8;
+        }
+
+        /* Pages */
+        .page {
+            display: none;
+            padding-top: 80px;
+            min-height: 100vh;
+        }
+
+        .page.active {
+            display: block;
+            animation: fadeIn 0.5s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Hero */
+        .hero {
+            background: linear-gradient(135deg, var(--mediterranean-blue), var(--terracotta));
+            color: white;
+            padding: 4rem 2rem;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-family: var(--font-heading);
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        /* Listings */
+        .listings {
+            max-width: 1400px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+
+        .listings-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .listing-card {
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+            cursor: pointer;
+        }
+
+        .listing-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .listing-image {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+        }
+
+        .listing-info {
+            padding: 1.5rem;
+        }
+
+        .listing-title {
+            font-family: var(--font-heading);
+            font-size: 1.25rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .listing-price {
+            color: var(--terracotta);
+            font-weight: 700;
+            font-size: 1.25rem;
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border-radius: 25px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s;
+            cursor: pointer;
+            border: none;
+            font-family: var(--font-body);
+        }
+
+        .btn-primary {
+            background: var(--terracotta);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--terracotta-dark);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--dark);
+            color: white;
+            padding: 3rem 2rem;
+            margin-top: 4rem;
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="#" class="logo" onclick="navigateTo('home')">
+                <i class="fas fa-home"></i> DarDZ
+            </a>
+            <ul class="nav-links">
+                <li><a href="#" onclick="navigateTo('home')">Accueil</a></li>
+                <li><a href="#" onclick="navigateTo('explore')">Explorer</a></li>
+                <li><a href="#" onclick="navigateTo('favorites')">Favoris (<span id="favCount">0</span>)</a></li>
+                <li><a href="#" onclick="navigateTo('messages')">Messages</a></li>
+                <li><a href="#" onclick="navigateTo('profile')">Profil</a></li>
+                <li><a href="#" onclick="navigateTo('host')">Devenir hôte</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Home Page -->
+    <div id="home" class="page active">
+        <div class="hero">
+            <h1>Découvrez l'Algérie Authentique</h1>
+            <p>Trouvez votre dar, riad ou appartement idéal dans les plus belles wilayas d'Algérie</p>
+        </div>
+        <div class="listings">
+            <h2>Logements populaires</h2>
+            <div class="listings-grid" id="homeListings"></div>
+        </div>
+    </div>
+
+    <!-- Explore Page -->
+    <div id="explore" class="page">
+        <div class="hero" style="padding: 2rem;">
+            <h1>Explorer tous les logements</h1>
+        </div>
+        <div class="listings">
+            <div class="listings-grid" id="exploreListings"></div>
+        </div>
+    </div>
+
+    <!-- Favorites Page -->
+    <div id="favorites" class="page">
+        <div class="hero" style="padding: 2rem;">
+            <h1>Mes Favoris</h1>
+        </div>
+        <div class="listings">
+            <div class="listings-grid" id="favoritesListings"></div>
+            <div id="emptyFavorites" style="display:none; text-align:center; padding:4rem;">
+                <i class="fas fa-heart" style="font-size:4rem; color:var(--gray);"></i>
+                <h3>Aucun favori</h3>
+                <p>Explorez nos logements et ajoutez vos coups de cœur</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Messages Page -->
+    <div id="messages" class="page">
+        <div class="hero" style="padding: 2rem;">
+            <h1>Messages</h1>
+        </div>
+        <div class="listings" style="max-width:800px;">
+            <p style="text-align:center; padding:2rem;">Système de messagerie - Contactez vos hôtes</p>
+        </div>
+    </div>
+
+    <!-- Profile Page -->
+    <div id="profile" class="page">
+        <div class="hero" style="padding: 2rem;">
+            <h1>Mon Profil</h1>
+        </div>
+        <div class="listings" style="max-width:600px;">
+            <div style="background:white; padding:2rem; border-radius:16px;">
+                <h3>Amine Mekki</h3>
+                <p>Membre depuis 2024</p>
+                <p><strong>Email:</strong> amine@email.dz</p>
+                <p><strong>Téléphone:</strong> +213 555 123 456</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Host Page -->
+    <div id="host" class="page">
+        <div class="hero">
+            <h1>Devenez hôte sur DarDZ</h1>
+            <p>Partagez votre logement et générez des revenus</p>
+            <button class="btn btn-primary">Commencer</button>
+        </div>
+        <div class="listings" style="text-align:center;">
+            <h2>Pourquoi devenir hôte ?</h2>
+            <p>Revenus attractifs • Protection garantie • Contrôle total</p>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-content">
+            <p>&copy; 2025 DarDZ - Paiements: CIB, Edahabia, BaridiMob</p>
+        </div>
+    </footer>
+
+    <script>
+        // Data avec 12 logements réalistes
+        const listings = [
+            {id:1, title:"Villa mauresque vue mer", location:"Hydra, Alger", price:12000, image:"https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=600", wilaya:"Alger"},
+            {id:2, title:"Appartement moderne centre-ville", location:"Didouche Mourad, Alger", price:8000, image:"https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=600", wilaya:"Alger"},
+            {id:3, title:"Riad traditionnel Casbah", location:"Casbah, Alger", price:8500, image:"https://images.unsplash.com/photo-1571896349842-33c89424de2d?w=600", wilaya:"Alger"},
+            {id:4, title:"Villa piscine Ain El Turck", location:"Ain El Turck, Oran", price:35000, image:"https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=600", wilaya:"Oran"},
+            {id:5, title:"Duplex Les Planteurs", location:"Les Planteurs, Oran", price:22000, image:"https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?w=600", wilaya:"Oran"},
+            {id:6, title:"Appartement vue mer Béjaïa", location:"Tichy, Béjaïa", price:9500, image:"https://images.unsplash.com/photo-1568605114967-8130f3a36994?w=600", wilaya:"Béjaïa"},
+            {id:7, title:"Studio Constantine centre", location:"Didouche Mourad, Constantine", price:6500, image:"https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af?w=600", wilaya:"Constantine"},
+            {id:8, title:"Villa Lalla Setti", location:"Lalla Setti, Tlemcen", price:18000, image:"https://images.unsplash.com/photo-1600585154526-990dced4db0d?w=600", wilaya:"Tlemcen"},
+            {id:9, title:"Dar M'Zab", location:"Beni Isguen, Ghardaïa", price:7000, image:"https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?w=600", wilaya:"Ghardaïa"},
+            {id:10, title:"Campement Hoggar", location:"Assekrem, Tamanrasset", price:5000, image:"https://images.unsplash.com/photo-1602002418082-a4443e081dd1?w=600", wilaya:"Tamanrasset"},
+            {id:11, title:"Résidence Tipaza", location:"Chenoua, Tipaza", price:13500, image:"https://images.unsplash.com/photo-1600607687644-aac4c3eac7f4?w=600", wilaya:"Tipaza"},
+            {id:12, title:"Maison Jijel", location:"Ziama Mansouriah, Jijel", price:8000, image:"https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?w=600", wilaya:"Jijel"}
+        ];
+
+        let favorites = JSON.parse(localStorage.getItem('dardz_favorites') || '[]');
+
+        function navigateTo(page) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.getElementById(page).classList.add('active');
+            window.scrollTo(0, 0);
+            
+            if(page === 'favorites') renderFavorites();
+        }
+
+        function createListingCard(listing) {
+            const isFav = favorites.includes(listing.id);
+            return `
+                <div class="listing-card" onclick="alert('Détail: ${listing.title}')">
+                    <img src="${listing.image}" alt="${listing.title}" class="listing-image">
+                    <div class="listing-info">
+                        <div class="listing-title">${listing.title}</div>
+                        <div style="color:#666; margin:0.5rem 0;">
+                            <i class="fas fa-map-marker-alt"></i> ${listing.location}
+                        </div>
+                        <div class="listing-price">${listing.price.toLocaleString()} DZD/nuit</div>
+                        <button onclick="event.stopPropagation(); toggleFavorite(${listing.id})" 
+                                style="margin-top:1rem; background:${isFav?'var(--terracotta)':'white'}; 
+                                       color:${isFav?'white':'var(--terracotta)'}; 
+                                       border:2px solid var(--terracotta); padding:0.5rem 1rem; 
+                                       border-radius:20px; cursor:pointer;">
+                            <i class="fas fa-heart"></i> ${isFav?'Retiré':'Ajouter'} favori
+                        </button>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderListings(containerId, items) {
+            document.getElementById(containerId).innerHTML = items.map(createListingCard).join('');
+        }
+
+        function toggleFavorite(id) {
+            if(favorites.includes(id)) {
+                favorites = favorites.filter(f => f !== id);
+            } else {
+                favorites.push(id);
+            }
+            localStorage.setItem('dardz_favorites', JSON.stringify(favorites));
+            document.getElementById('favCount').textContent = favorites.length;
+            renderListings('homeListings', listings.slice(0,6));
+            renderListings('exploreListings', listings);
+            renderFavorites();
+        }
+
+        function renderFavorites() {
+            const favListings = listings.filter(l => favorites.includes(l.id));
+            if(favListings.length === 0) {
+                document.getElementById('favoritesListings').style.display = 'none';
+                document.getElementById('emptyFavorites').style.display = 'block';
+            } else {
+                document.getElementById('favoritesListings').style.display = 'grid';
+                document.getElementById('emptyFavorites').style.display = 'none';
+                renderListings('favoritesListings', favListings);
+            }
+        }
+
+        // Init
+        document.addEventListener('DOMContentLoaded', () => {
+            renderListings('homeListings', listings.slice(0,6));
+            renderListings('exploreListings', listings);
+            document.getElementById('favCount').textContent = favorites.length;
+        });
+    </script>
+</body>
+</html>

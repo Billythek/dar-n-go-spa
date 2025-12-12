@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DarDZ - Location de logements en Algérie</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js"></script>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <div class="logo" onclick="showPage('accueil')">
+                <div class="logo-icon">D</div>
+                <div class="logo-text">Dar<span>DZ</span></div>
+            </div>
+            <nav class="nav-links">
+                <a href="#" data-nav="accueil" class="nav-link active" onclick="showPage('accueil')">Accueil</a>
+                <a href="#" data-nav="explorer" class="nav-link" onclick="showPage('explorer')">Explorer</a>
+                <a href="#" data-nav="favoris" class="nav-link" onclick="showPage('favoris')">Favoris</a>
+                <a href="#" data-nav="devenir-hote" class="nav-link btn-host" onclick="showPage('devenir-hote')">Devenir hôte</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- PAGE ACCUEIL -->
+    <div data-page="accueil">
+        <section class="hero">
+            <div class="hero-content">
+                <h1 class="hero-title">Découvrez l'<span class="highlight">Algérie</span><br>autrement</h1>
+                <p class="hero-subtitle">Séjours uniques dans les plus belles wilayas du pays</p>
+                
+                <div class="search-container">
+                    <div class="search-box">
+                        <div class="search-field">
+                            <label>Destination</label>
+                            <input type="text" id="destination-input" placeholder="Toutes les wilayas">
+                            <div id="destination-dropdown" class="dropdown" style="display:none;"></div>
+                        </div>
+                        <div class="search-field">
+                            <label>Arrivée</label>
+                            <input type="date">
+                        </div>
+                        <div class="search-field">
+                            <label>Départ</label>
+                            <input type="date">
+                        </div>
+                        <div class="search-field">
+                            <label>Voyageurs</label>
+                            <input type="text" readonly class="voyageurs-display" value="2 voyageurs">
+                        </div>
+                        <button class="search-btn" onclick="performSearch(); showPage('explorer')">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="11" cy="11" r="8"></circle>
+                                <path d="M21 21l-4.35-4.35"></path>
+                            </svg>
+                            Rechercher
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="main">
+            <div class="section-header">
+                <h2 class="section-title">Logements <span>populaires</span></h2>
+            </div>
+            <div class="listings-grid" id="accueil-listings"></div>
+        </section>
+    </div>
+
+    <!-- PAGE EXPLORER -->
+    <div data-page="explorer" style="display:none;">
+        <section class="explorer-section">
+            <div class="explorer-container">
+                <aside class="explorer-filters">
+                    <h3>Filtres</h3>
+                    <div class="filter-group">
+                        <label>Prix (DZD / nuit)</label>
+                        <input type="range" min="5000" max="50000" step="1000">
+                    </div>
+                    <div class="filter-group">
+                        <label>
+                            <input type="checkbox" onchange="APP_STATE.searchFilters.animauxAcceptes = this.checked; renderExplorer()">
+                            🐕 Animaux acceptés
+                        </label>
+                    </div>
+                </aside>
+                <div class="explorer-results">
+                    <div class="listings-grid" id="explorer-listings"></div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- PAGE FAVORIS -->
+    <div data-page="favoris" style="display:none;">
+        <section class="main">
+            <h2 class="section-title">Mes <span>favoris</span></h2>
+            <div class="listings-grid" id="favoris-listings"></div>
+        </section>
+    </div>
+
+    <!-- PAGE RÉSERVATION -->
+    <div data-page="reservation" style="display:none;">
+        <section class="main" id="reservation-content"></section>
+    </div>
+
+    <!-- PAGE PROFIL -->
+    <div data-page="profil" style="display:none;">
+        <section class="main">
+            <h2>Mon Profil</h2>
+            <p>Page profil en construction...</p>
+        </section>
+    </div>
+
+    <!-- PAGE MESSAGES -->
+    <div data-page="messages" style="display:none;">
+        <section class="main">
+            <h2>Messages</h2>
+            <p>Page messages en construction...</p>
+        </section>
+    </div>
+
+    <!-- PAGE DEVENIR HÔTE -->
+    <div data-page="devenir-hote" style="display:none;">
+        <section class="devenir-hote-hero">
+            <h1>Gagnez jusqu'à 450 000 DZD / mois</h1>
+            <p>Devenez hôte sur DarDZ et louez votre logement en toute sérénité</p>
+            <button class="btn-primary">Commencer maintenant</button>
+        </section>
+    </div>
+
+    <!-- MODAL DÉTAIL -->
+    <div id="detail-modal" class="modal-overlay" onclick="if(event.target === this) closeDetailModal()">
+        <div class="modal">
+            <div id="modal-detail-content"></div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-brand">Dar<span>DZ</span></div>
+            <p class="footer-desc">La première plateforme algérienne de location de logements.</p>
+            <div class="footer-copy">© 2024 DarDZ. Tous droits réservés.</div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="js/data.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,1145 @@
+{
+  "walle2_flow": {
+    "answers": [],
+    "client_support": {
+      "fallback_url": "https://www.airbnb.com/dynamic_flows/report_unsafe_behavior/1",
+      "is_supported": true
+    },
+    "components": [
+      {
+        "id": "education_header",
+        "type": "DOCUMENT_MARQUEE",
+        "phrase_id_primary": "education_header_phrase",
+        "phrase_id_secondary": "education_subtitle_phrase"
+      },
+      {
+        "id": "education_list",
+        "type": "UNORDERED_LIST_ROW",
+        "phrase_id_primary": "education_list_text_phrase",
+        "phrase_ids": [
+          "education_list_1_phrase",
+          "education_list_2_phrase",
+          "education_list_3_phrase",
+          "education_list_4_phrase"
+        ]
+      },
+      {
+        "id": "injury_list",
+        "type": "UNORDERED_LIST_ROW",
+        "phrase_ids": [
+          "injury_list_1_phrase",
+          "injury_list_2_phrase",
+          "injury_list_3_phrase",
+          "privacy_violation_list_3_phrase"
+        ],
+        "phrase_id_secondary": "user_input_list_text_phrase"
+      },
+      {
+        "id": "sexual_assault_list",
+        "type": "UNORDERED_LIST_ROW",
+        "phrase_ids": [
+          "privacy_violation_list_3_phrase",
+          "physical_assault_list_6_phrase"
+        ],
+        "phrase_id_secondary": "user_input_list_text_phrase"
+      },
+      {
+        "id": "physical_assault_list",
+        "type": "UNORDERED_LIST_ROW",
+        "phrase_ids": [
+          "physical_assault_list_1_phrase",
+          "physical_assault_list_2_phrase",
+          "physical_assault_list_3_phrase",
+          "privacy_violation_list_3_phrase",
+          "physical_assault_list_5_phrase",
+          "physical_assault_list_6_phrase",
+          "physical_assault_list_7_phrase"
+        ],
+        "phrase_id_secondary": "user_input_list_text_phrase"
+      },
+      {
+        "id": "privacy_violation_list",
+        "type": "UNORDERED_LIST_ROW",
+        "phrase_ids": [
+          "privacy_violation_list_1_phrase",
+          "privacy_violation_list_2_phrase",
+          "privacy_violation_list_3_phrase",
+          "privacy_violation_list_4_phrase"
+        ],
+        "phrase_id_secondary": "user_input_list_text_phrase"
+      },
+      {
+        "id": "main_category_selection_header",
+        "type": "DOCUMENT_MARQUEE",
+        "phrase_id_primary": "main_category_selection_primary_phrase",
+        "phrase_id_secondary": "main_category_selection_secondary_phrase"
+      },
+      {
+        "id": "main_category_radio_group",
+        "type": "RADIO_BUTTON_GROUP",
+        "component_ids": [
+          "radio_main_category_physical_assault",
+          "radio_main_category_sexual_assault",
+          "radio_main_category_harassment",
+          "radio_main_category_privacy_violation",
+          "radio_main_category_injury"
+        ],
+        "question_id": "main_category_radio_question"
+      },
+      {
+        "id": "main_category_discrimination_radio_group",
+        "type": "RADIO_BUTTON_GROUP",
+        "component_ids": [
+          "radio_main_category_discrimination"
+        ],
+        "question_id": "main_category_radio_question"
+      },
+      {
+        "id": "main_category_other_radio_group",
+        "type": "RADIO_BUTTON_GROUP",
+        "component_ids": [
+          "radio_main_category_other"
+        ],
+        "question_id": "main_category_radio_question"
+      },
+      {
+        "id": "main_category_property_damage_radio_group",
+        "type": "RADIO_BUTTON_GROUP",
+        "component_ids": [
+          "radio_main_category_property_damage"
+        ],
+        "question_id": "main_category_radio_question"
+      },
+      {
+        "id": "radio_main_category_physical_assault",
+        "type": "RADIO_BUTTON_ROW",
+        "phrase_id_primary": "main_category_physical_assault_primary_phrase",
+        "phrase_id_secondary": "main_category_physical_assault_secondary_phrase",
+        "question_value": "3"
+      },
+      {
+        "id": "radio_main_category_sexual_assault",
+        "type": "RADIO_BUTTON_ROW",
+        "phrase_id_primary": "main_category_sexual_assault_primary_phrase",
+        "phrase_id_secondary": "main_category_sexual_assault_secondary_phrase",
+        "question_value": "2"
+      },
+      {
+        "id": "radio_main_category_injury",
+        "type": "RADIO_BUTTON_ROW",
+        "phrase_id_primary": "main_category_injury_primary_phrase",
+        "question_value": "6"
+      },
+      {
+        "id": "radio_main_category_discrimination",
+        "type": "RADIO_BUTTON_ROW",
+        "phrase_id_primary": "main_category_discrimination_primary_phrase",
+        "phrase_id_secondary": "main_category_discrimination_secondary_phrase",
+        "question_value": "11",
+        "hide_divider": {
+          "type": "ANSWER_EQUALS",
+          "question_id": "main_category_radio_question",
+          "value": "11"
+        }
+      },
+      {
+        "id": "radio_main_category_property_damage",
+        "type": "RADIO_BUTTON_ROW",
+        "phrase_id_primary": "main_category_property_damage_primary_phrase",
+        "question_value": "21",
+        "hide_divider": {
+          "type": "ANSWER_EQUALS",
+          "question_id": "main_category_radio_question",
+          "value": "21"
+        }
+      },
+      {
+        "id": "radio_main_category_other",
+        "type": "RADIO_BUTTON_ROW",
+        "phrase_id_primary": "main_category_other_primary_phrase",
+        "question_value": "22",
+        "hide_divider": {
+          "type": "ANSWER_EQUALS",
+          "question_id": "main_category_radio_question",
+          "value": "22"
+        }
+      },
+      {
+        "id": "main_category_discrimination_button",
+        "type": "BUTTON_ROW",
+        "phrase_id_primary": "continue_button_phrase",
+        "visible": {
+          "type": "ANSWER_EQUALS",
+          "question_id": "main_category_radio_question",
+          "value": "11"
+        },
+        "hide_divider": {
+          "type": "ANSWER_NOT_EQUALS",
+          "question_id": "main_category_radio_question",
+          "value": "11"
+        },
+        "primary_link": {
+          "mobile_action": {
+            "fallback_url": "https://www.airbnb.com/help/contact-us/message?about=3&tier1=53&tier2=3730"
+          },
+          "web_href": "/help/contact-us/message?about=3&tier1=53&tier2=3730"
+        }
+      },
+      {
+        "id": "radio_main_category_harassment",
+        "type": "RADIO_BUTTON_ROW",
+        "phrase_id_primary": "main_category_harassment_primary_phrase",
+        "phrase_id_secondary": "main_category_harassment_secondary_phrase",
+        "question_value": "9"
+      },
+      {
+        "id": "radio_main_category_privacy_violation",
+        "type": "RADIO_BUTTON_ROW",
+        "phrase_id_primary": "main_category_privacy_violation_primary_phrase",
+        "phrase_id_secondary": "main_category_privacy_violation_secondary_phrase",
+        "question_value": "10"
+      },
+      {
+        "id": "sub_category_harassment_selection_header",
+        "type": "DOCUMENT_MARQUEE",
+        "phrase_id_primary": "sub_category_harassment_selection_primary_phrase"
+      },
+      {
+        "id": "sub_category_privacy_violation_selection_header",
+        "type": "DOCUMENT_MARQUEE",
+        "phrase_id_primary": "sub_category_privacy_violation_selection_primary_phrase"
+      },
+      {
+        "id": "radio_sub_category_radio_group",
+        "type": "RADIO_BUTTON_GROUP",
+        "component_ids": [
+          "radio_sub_category_repeated_name",
+          "radio_sub_category_repeated_contact",
+          "radio_sub_category_internet_alias",
+          "radio_sub_category_publicly_sharing",
+          "radio_sub_category_sexual_harassment",
+          "radio_sub_category_other_harassment"
+        ],
+        "question_id": "sub_category_radio_question"
+      },
+      {
+        "id": "radio_sub_category_repeated_name",
+        "type": "RADIO_BUTTON_ROW",
+        "phrase_id_primary": "sub_category_repeated_name_primary_phrase",
+        "question_value": "11"
+      },
+      {
+        "id": "radio_sub_category_repeated_contact",
+        "type": "RADIO_BUTTON_ROW",
+        "phrase_id_primary": "sub_category_repeated_contact_primary_phrase",
+        "question_value": "12"
+      },
+      {
+        "id": "radio_sub_category_internet_alias",
+        "type": "RADIO_BUTTON_ROW",
+        "phrase_id_primary": "sub_category_internet_alias_primary_phrase",
+        "question_value": "13"
+      },
+      {
+        "id": "radio_sub_category_publicly_sharing",
+        "type": "RADIO_BUTTON_ROW",
+        "phrase_id_primary": "sub_category_publicly_sharing_primary_phrase",
+        "question_value": "14"
+      },
+      {
+        "id": "radio_sub_category_discrimination_radio_group",
+        "type": "RADIO_BUTTON_GROUP",
+        "component_ids": [
+          "radio_sub_category_discrimination"
+        ],
+        "question_id": "sub_category_radio_question"
+      },
+      {
+        "id": "radio_sub_category_discrimination",
+        "type": "RADIO_BUTTON_ROW",
+        "phrase_id_primary": "main_category_discrimination_primary_phrase",
+        "question_value": "1"
+      },
+      {
+        "id": "radio_sub_category_sexual_harassment",
+        "type": "RADIO_BUTTON_ROW",
+        "phrase_id_primary": "sub_category_sexual_harassment_primary_phrase",
+        "question_value": "15"
+      },
+      {
+        "id": "radio_sub_category_other_harassment",
+        "type": "RADIO_BUTTON_ROW",
+        "phrase_id_primary": "sub_category_other_harassment_primary_phrase",
+        "question_value": "16"
+      },
+      {
+        "id": "radio_sub_category_privacy_violation_radio_group",
+        "type": "RADIO_BUTTON_GROUP",
+        "component_ids": [
+          "radio_sub_category_undisclosed_camera"
+        ],
+        "question_id": "sub_category_radio_question"
+      },
+      {
+        "id": "sub_category_entering_listing_radio_group",
+        "type": "RADIO_BUTTON_GROUP",
+        "component_ids": [
+          "radio_sub_category_entering_listing"
+        ],
+        "question_id": "sub_category_radio_question"
+      },
+      {
+        "id": "sub_category_other_privacy_radio_group",
+        "type": "RADIO_BUTTON_GROUP",
+        "component_ids": [
+          "radio_sub_category_other_privacy"
+        ],
+        "question_id": "sub_category_radio_question"
+      },
+      {
+        "id": "radio_sub_category_entering_listing",
+        "type": "RADIO_BUTTON_ROW",
+        "phrase_id_primary": "sub_category_entering_listing_primary_phrase",
+        "question_value": "17"
+      },
+      {
+        "id": "radio_sub_category_undisclosed_camera",
+        "type": "RADIO_BUTTON_ROW",
+        "phrase_id_primary": "sub_category_undisclosed_camera_primary_phrase",
+        "question_value": "18"
+      },
+      {
+        "id": "radio_sub_category_other_privacy",
+        "type": "RADIO_BUTTON_ROW",
+        "phrase_id_primary": "sub_category_other_privacy_primary_phrase",
+        "question_value": "19"
+      },
+      {
+        "id": "user_input_header",
+        "type": "DOCUMENT_MARQUEE",
+        "phrase_id_primary": "user_input_primary_phrase"
+      },
+      {
+        "id": "sub_category_discrimination_button",
+        "type": "BUTTON_ROW",
+        "phrase_id_primary": "continue_button_phrase",
+        "visible": {
+          "type": "ANSWER_EQUALS",
+          "question_id": "sub_category_radio_question",
+          "value": "1"
+        },
+        "primary_link": {
+          "mobile_action": {
+            "fallback_url": "https://www.airbnb.com/help/contact-us/message?about=3&tier1=53&tier2=3730"
+          },
+          "web_href": "/help/contact-us/message?about=3&tier1=53&tier2=3730"
+        }
+      },
+      {
+        "id": "main_category_property_damage_button",
+        "type": "BUTTON_ROW",
+        "phrase_id_primary": "continue_button_phrase",
+        "visible": {
+          "type": "ANSWER_EQUALS",
+          "question_id": "main_category_radio_question",
+          "value": "21"
+        },
+        "hide_divider": {
+          "type": "ANSWER_NOT_EQUALS",
+          "question_id": "main_category_radio_question",
+          "value": "21"
+        },
+        "primary_link": {
+          "mobile_action": {
+            "fallback_url": "https://www.airbnb.com/resolutions"
+          },
+          "web_href": "/resolutions"
+        }
+      },
+      {
+        "id": "main_category_other_button",
+        "type": "BUTTON_ROW",
+        "phrase_id_primary": "continue_button_phrase",
+        "visible": {
+          "type": "ANSWER_EQUALS",
+          "question_id": "main_category_radio_question",
+          "value": "22"
+        },
+        "hide_divider": {
+          "type": "ANSWER_NOT_EQUALS",
+          "question_id": "main_category_radio_question",
+          "value": "22"
+        },
+        "primary_link": {
+          "mobile_action": {
+            "fallback_url": "https://www.airbnb.com/help/contact-us/topic"
+          },
+          "web_href": "/help/contact-us/topic"
+        }
+      },
+      {
+        "id": "sub_category_entering_listing_button",
+        "type": "BUTTON_ROW",
+        "phrase_id_primary": "continue_button_phrase",
+        "visible": {
+          "type": "ANSWER_EQUALS",
+          "question_id": "sub_category_radio_question",
+          "value": "17"
+        },
+        "primary_link": {
+          "mobile_action": {
+            "fallback_url": "https://www.airbnb.com/help/contact-us/topic"
+          },
+          "web_href": "/help/contact-us/topic"
+        }
+      },
+      {
+        "id": "sub_category_other_privacy_button",
+        "type": "BUTTON_ROW",
+        "phrase_id_primary": "continue_button_phrase",
+        "visible": {
+          "type": "ANSWER_EQUALS",
+          "question_id": "sub_category_radio_question",
+          "value": "19"
+        },
+        "primary_link": {
+          "mobile_action": {
+            "fallback_url": "https://www.airbnb.com/help/contact-us/topic"
+          },
+          "web_href": "/help/contact-us/topic"
+        }
+      },
+      {
+        "id": "contact_prefs_header",
+        "type": "DOCUMENT_MARQUEE",
+        "phrase_id_primary": "contact_prefs_header_phrase",
+        "phrase_id_secondary": "contact_prefs_header_subtitle_phrase"
+      },
+      {
+        "id": "contact_prefs_text",
+        "type": "TEXT",
+        "phrase_id_primary": "contact_prefs_text_phrase"
+      },
+      {
+        "id": "contact_prefs_radio_component",
+        "type": "RADIO_BUTTON_GROUP",
+        "component_ids": [
+          "radio_email_contact_prefs",
+          "radio_phone_contact_prefs"
+        ],
+        "phrase_id_primary": "contact_prefs_text_phrase",
+        "question_id": "contact_pref_radio_question"
+      },
+      {
+        "id": "radio_phone_contact_prefs",
+        "type": "RADIO_BUTTON_ROW",
+        "phrase_id_primary": "contact_prefs_phone_radio_primary_phrase",
+        "phrase_id_secondary": "contact_prefs_phone_radio_secondary",
+        "question_value": "phone"
+      },
+      {
+        "id": "radio_email_contact_prefs",
+        "type": "RADIO_BUTTON_ROW",
+        "phrase_id_primary": "contact_prefs_email_radio_primary_phrase",
+        "phrase_id_secondary": "contact_prefs_email_radio_secondary",
+        "question_value": "email"
+      },
+      {
+        "id": "phone_contact_prefs_textarea",
+        "type": "TEXT_AREA_ROW",
+        "phrase_id_placeholder": "contact_prefs_textarea_placeholder",
+        "phrase_id_primary": "contact_prefs_phone_textarea_primary_phrase",
+        "question_id": "contact_pref_phone_input_question",
+        "question_value": "1",
+        "visible": {
+          "type": "ANSWER_EQUALS",
+          "question_id": "contact_pref_radio_question",
+          "value": "phone"
+        }
+      },
+      {
+        "id": "user_input_textarea",
+        "type": "TEXT_AREA_ROW",
+        "phrase_id_placeholder": "user_input_textarea_placeholder",
+        "phrase_id_primary": "user_input_textarea_primary_phrase",
+        "question_id": "user_input_question",
+        "question_value": ""
+      },
+      {
+        "id": "thank_you_header",
+        "type": "DOCUMENT_MARQUEE",
+        "phrase_id_primary": "thank_you_title_phrase"
+      },
+      {
+        "id": "thank_you_subtitle",
+        "type": "TEXT",
+        "phrase_id_primary": "thank_you_subtitle_phrase"
+      },
+      {
+        "id": "thank_you_email_text",
+        "type": "TEXT",
+        "phrase_id_primary": "thank_you_email_text",
+        "visible": {
+          "type": "ANSWER_EQUALS",
+          "question_id": "contact_pref_radio_question",
+          "value": "email"
+        }
+      },
+      {
+        "id": "thank_you_phone_text",
+        "type": "TEXT",
+        "phrase_id_primary": "thank_you_phone_text",
+        "visible": {
+          "type": "ANSWER_EQUALS",
+          "question_id": "contact_pref_radio_question",
+          "value": "phone"
+        }
+      }
+    ],
+    "entity_id": 1,
+    "phrases": [
+      {
+        "id": "close_button_label",
+        "type": "STRING",
+        "localized": "Close"
+      },
+      {
+        "id": "empty_phrase",
+        "type": "STATIC",
+        "localized": ""
+      },
+      {
+        "id": "education_header_phrase",
+        "type": "STATIC",
+        "localized": "Your well-being comes first"
+      },
+      {
+        "id": "education_subtitle_phrase",
+        "type": "STATIC",
+        "localized": "Information you share with us here will be used to connect you with our safety team as quickly as possible. It will never appear in your public reviews or on your public profile."
+      },
+      {
+        "id": "education_list_text_phrase",
+        "type": "STATIC",
+        "localized": "What to expect"
+      },
+      {
+        "id": "education_list_1_phrase",
+        "type": "STATIC",
+        "localized": "We'll ask you to select the type of incident you experienced"
+      },
+      {
+        "id": "education_list_2_phrase",
+        "type": "STATIC",
+        "localized": "You'll have the option to add details"
+      },
+      {
+        "id": "education_list_3_phrase",
+        "type": "STATIC",
+        "localized": "We'll investigate and take appropriate action to protect the community"
+      },
+      {
+        "id": "education_list_4_phrase",
+        "type": "STATIC",
+        "localized": "We'll email or call you to follow up"
+      },
+      {
+        "id": "main_category_selection_primary_phrase",
+        "type": "STATIC",
+        "localized": "How would you describe what happened?"
+      },
+      {
+        "id": "main_category_selection_secondary_phrase",
+        "type": "STATIC",
+        "localized": "This information helps us get you to the right support team."
+      },
+      {
+        "id": "main_category_physical_assault_primary_phrase",
+        "type": "STATIC",
+        "localized": "Physical assault"
+      },
+      {
+        "id": "main_category_physical_assault_secondary_phrase",
+        "type": "STATIC",
+        "localized": "This may include physical harm, unwanted physical contact, or threats of physical assault"
+      },
+      {
+        "id": "main_category_sexual_assault_primary_phrase",
+        "type": "STATIC",
+        "localized": "Sexual assault"
+      },
+      {
+        "id": "main_category_sexual_assault_secondary_phrase",
+        "type": "STATIC",
+        "localized": "This may include sexual violence, unwanted sexual contact, or another form of sexual harassment"
+      },
+      {
+        "id": "main_category_discrimination_primary_phrase",
+        "type": "STATIC",
+        "localized": "Discrimination"
+      },
+      {
+        "id": "main_category_discrimination_secondary_phrase",
+        "type": "STATIC",
+        "localized": "This may include images, speech, or behavior that's prejudiced, hateful, or extremist"
+      },
+      {
+        "id": "main_category_harassment_primary_phrase",
+        "type": "STATIC",
+        "localized": "Harassment"
+      },
+      {
+        "id": "main_category_harassment_secondary_phrase",
+        "type": "STATIC",
+        "localized": "This may include bullying, exposing of private information, or another form of harassment"
+      },
+      {
+        "id": "main_category_privacy_violation_primary_phrase",
+        "type": "STATIC",
+        "localized": "Privacy violation"
+      },
+      {
+        "id": "main_category_privacy_violation_secondary_phrase",
+        "type": "STATIC",
+        "localized": "This may include being watched, having your space intruded on, or being recorded without permission"
+      },
+      {
+        "id": "main_category_injury_primary_phrase",
+        "type": "STATIC",
+        "localized": "Injury"
+      },
+      {
+        "id": "main_category_property_damage_primary_phrase",
+        "type": "STATIC",
+        "localized": "Property damage or theft"
+      },
+      {
+        "id": "main_category_other_primary_phrase",
+        "type": "STATIC",
+        "localized": "Other"
+      },
+      {
+        "id": "user_input_primary_phrase",
+        "type": "STATIC",
+        "localized": "Would you like to add more information?"
+      },
+      {
+        "id": "user_input_textarea_placeholder",
+        "type": "STATIC",
+        "localized": "Click here to add details."
+      },
+      {
+        "id": "contact_prefs_textarea_placeholder",
+        "type": "STATIC",
+        "localized": "Click here to add details."
+      },
+      {
+        "id": "user_input_list_text_phrase",
+        "type": "STATIC",
+        "localized": "Examples of details that can help us understand what happened:"
+      },
+      {
+        "id": "physical_assault_list_1_phrase",
+        "type": "STATIC",
+        "localized": "Was someone seriously hurt?"
+      },
+      {
+        "id": "physical_assault_list_2_phrase",
+        "type": "STATIC",
+        "localized": "Were there any weapons involved?"
+      },
+      {
+        "id": "physical_assault_list_3_phrase",
+        "type": "STATIC",
+        "localized": "What, if anything, led up to the assault?"
+      },
+      {
+        "id": "physical_assault_list_5_phrase",
+        "type": "STATIC",
+        "localized": "Where did this happen?"
+      },
+      {
+        "id": "physical_assault_list_6_phrase",
+        "type": "STATIC",
+        "localized": "Was anyone involved under 18?"
+      },
+      {
+        "id": "physical_assault_list_7_phrase",
+        "type": "STATIC",
+        "localized": "Was a police report filed?"
+      },
+      {
+        "id": "injury_list_1_phrase",
+        "type": "STATIC",
+        "localized": "What was the injury?"
+      },
+      {
+        "id": "injury_list_2_phrase",
+        "type": "STATIC",
+        "localized": "How did the injury occur?"
+      },
+      {
+        "id": "injury_list_3_phrase",
+        "type": "STATIC",
+        "localized": "Where did it occur?"
+      },
+      {
+        "id": "privacy_violation_list_1_phrase",
+        "type": "STATIC",
+        "localized": "What, if any, part of the space was accessed or monitored without consent?"
+      },
+      {
+        "id": "privacy_violation_list_2_phrase",
+        "type": "STATIC",
+        "localized": "What kinds of devices, if any, were involved, and where were they located?"
+      },
+      {
+        "id": "privacy_violation_list_3_phrase",
+        "type": "STATIC",
+        "localized": "Who was involved?"
+      },
+      {
+        "id": "privacy_violation_list_4_phrase",
+        "type": "STATIC",
+        "localized": "How was this privacy violation discovered?"
+      },
+      {
+        "id": "sub_category_harassment_selection_primary_phrase",
+        "type": "STATIC",
+        "localized": "What kind of harassment did you experience?"
+      },
+      {
+        "id": "sub_category_repeated_name_primary_phrase",
+        "type": "STATIC",
+        "localized": "Repeated name-calling, threats, or insults"
+      },
+      {
+        "id": "sub_category_repeated_contact_primary_phrase",
+        "type": "STATIC",
+        "localized": "Repeated unwelcome contact"
+      },
+      {
+        "id": "sub_category_internet_alias_primary_phrase",
+        "type": "STATIC",
+        "localized": "Use of an internet alias or website to target or insult"
+      },
+      {
+        "id": "sub_category_publicly_sharing_primary_phrase",
+        "type": "STATIC",
+        "localized": "Publicly sharing personal information"
+      },
+      {
+        "id": "sub_category_other_harassment_primary_phrase",
+        "type": "STATIC",
+        "localized": "Other harassment"
+      },
+      {
+        "id": "sub_category_privacy_violation_selection_primary_phrase",
+        "type": "STATIC",
+        "localized": "What kind of privacy violation did you experience?"
+      },
+      {
+        "id": "sub_category_entering_listing_primary_phrase",
+        "type": "STATIC",
+        "localized": "Entering or observing the space without permission"
+      },
+      {
+        "id": "sub_category_undisclosed_camera_primary_phrase",
+        "type": "STATIC",
+        "localized": "Undisclosed security camera or recording device"
+      },
+      {
+        "id": "sub_category_other_privacy_primary_phrase",
+        "type": "STATIC",
+        "localized": "Other privacy violation"
+      },
+      {
+        "id": "sub_category_sexual_harassment_primary_phrase",
+        "type": "STATIC",
+        "localized": "Sexual harassment"
+      },
+      {
+        "id": "sub_category_watching_listening_primary_phrase",
+        "type": "STATIC",
+        "localized": "Watching or listening without my consent"
+      },
+      {
+        "id": "contact_prefs_header_phrase",
+        "type": "STATIC",
+        "localized": "Thank you for letting us know"
+      },
+      {
+        "id": "contact_prefs_header_subtitle_phrase",
+        "type": "STATIC",
+        "localized": "Next, a dedicated safety specialist will get to work, using the information you've given us."
+      },
+      {
+        "id": "contact_prefs_text_phrase",
+        "type": "STATIC",
+        "localized": "How would you like us to follow up?"
+      },
+      {
+        "id": "contact_prefs_phone_radio_primary_phrase",
+        "type": "STATIC",
+        "localized": "Please call me"
+      },
+      {
+        "id": "contact_prefs_phone_radio_secondary_phrase",
+        "type": "STATIC",
+        "localized": "Your number on file: %{phone_number}."
+      },
+      {
+        "id": "contact_prefs_phone_radio_secondary",
+        "type": "TOKEN",
+        "phrase_id": "contact_prefs_phone_radio_secondary_phrase",
+        "phrase_id_token": "phone_number_token",
+        "token": "phone_number"
+      },
+      {
+        "id": "contact_prefs_phone_textarea_primary_phrase",
+        "type": "STATIC",
+        "localized": "If you'd prefer we call a different number, or have a preferred times for us to call you, please let us know here:"
+      },
+      {
+        "id": "user_input_textarea_primary_phrase",
+        "type": "STATIC",
+        "localized": "If you prefer, you can leave this blank and we'll follow up later."
+      },
+      {
+        "id": "contact_prefs_email_radio_primary_phrase",
+        "type": "STATIC",
+        "localized": "Please email me"
+      },
+      {
+        "id": "contact_prefs_email_radio_secondary_phrase",
+        "type": "STATIC",
+        "localized": "Your email on file: %{email}"
+      },
+      {
+        "id": "contact_prefs_email_radio_secondary",
+        "type": "TOKEN",
+        "phrase_id": "contact_prefs_email_radio_secondary_phrase",
+        "phrase_id_token": "email_token",
+        "token": "email"
+      },
+      {
+        "id": "thank_you_title_phrase",
+        "type": "STATIC",
+        "localized": "We'll get to work on this right away"
+      },
+      {
+        "id": "thank_you_subtitle_phrase",
+        "type": "STATIC",
+        "localized": "We're sorry you had this experience, and we appreciate you telling us about it."
+      },
+      {
+        "id": "thank_you_phone_text",
+        "type": "STATIC",
+        "localized": "Once we've had a chance to review this information, we will call you. Our response times can vary from case to case, but a dedicated safety specialist will reach out as soon as possible."
+      },
+      {
+        "id": "thank_you_email_text",
+        "type": "STATIC",
+        "localized": "Once we've had a chance to review this information, we will email you. Our response times can vary from case to case, but a dedicated safety specialist will reach out as soon as possible."
+      },
+      {
+        "id": "thank_you_button_phrase",
+        "type": "STATIC",
+        "localized": "Finish"
+      },
+      {
+        "id": "save_button_phrase",
+        "type": "STATIC",
+        "localized": "Save"
+      },
+      {
+        "id": "continue_button_phrase",
+        "type": "STATIC",
+        "localized": "Continue"
+      },
+      {
+        "id": "email_token",
+        "type": "STATIC",
+        "localized": "conrad.rier+64G2@plusqa.com"
+      },
+      {
+        "id": "phone_number_token",
+        "type": "STATIC",
+        "localized": "+1 503-367-1593"
+      }
+    ],
+    "questions": [
+      {
+        "id": "main_category_radio_question",
+        "type": "STRING"
+      },
+      {
+        "id": "sub_category_radio_question",
+        "type": "STRING"
+      },
+      {
+        "id": "contact_pref_radio_question",
+        "type": "STRING"
+      },
+      {
+        "id": "contact_pref_phone_input_question",
+        "type": "STRING"
+      },
+      {
+        "id": "user_input_question",
+        "type": "STRING"
+      }
+    ],
+    "settings": {
+      "theme": "GUEST",
+      "early_exit": {
+        "phrase_id_button": "close_button_label"
+      },
+      "after_submitted": {
+        "primary_button": {
+          "web_href": "/"
+        },
+        "phrase_id_primary_button": "thank_you_button_phrase",
+        "component_ids": [
+          "thank_you_header",
+          "thank_you_subtitle",
+          "thank_you_email_text",
+          "thank_you_phone_text"
+        ]
+      },
+      "save_mode": "ON_SUBMIT"
+    },
+    "steps": [
+      {
+        "id": "education_step",
+        "component_ids": [
+          "education_header",
+          "education_list"
+        ],
+        "next_button": {
+          "phrase_id": "continue_button_phrase"
+        }
+      },
+      {
+        "id": "main_category_step",
+        "component_ids": [
+          "main_category_selection_header",
+          "main_category_radio_group",
+          "main_category_discrimination_radio_group",
+          "main_category_discrimination_button",
+          "main_category_property_damage_radio_group",
+          "main_category_property_damage_button",
+          "main_category_other_radio_group",
+          "main_category_other_button"
+        ],
+        "next_button": {
+          "disabled": {
+            "type": "ANSWER_NOT_ONE_OF",
+            "question_id": "main_category_radio_question",
+            "values": [
+              "2",
+              "3",
+              "6",
+              "9",
+              "10"
+            ]
+          },
+          "phrase_id": "continue_button_phrase"
+        }
+      },
+      {
+        "id": "sub_category_harassment_step",
+        "visible": {
+          "type": "ANSWER_EQUALS",
+          "question_id": "main_category_radio_question",
+          "value": "9"
+        },
+        "component_ids": [
+          "sub_category_harassment_selection_header",
+          "radio_sub_category_radio_group",
+          "radio_sub_category_discrimination_radio_group",
+          "sub_category_discrimination_button"
+        ],
+        "next_button": {
+          "disabled": {
+            "type": "ANSWER_NOT_ONE_OF",
+            "question_id": "sub_category_radio_question",
+            "values": [
+              "11",
+              "12",
+              "13",
+              "14",
+              "15",
+              "16"
+            ]
+          },
+          "phrase_id": "continue_button_phrase"
+        }
+      },
+      {
+        "id": "other_harassment_input_step",
+        "visible": {
+          "type": "AND",
+          "conditions": [
+            {
+              "type": "ANSWER_ONE_OF",
+              "question_id": "sub_category_radio_question",
+              "values": [
+                "11",
+                "12",
+                "13",
+                "14",
+                "15",
+                "16"
+              ]
+            },
+            {
+              "type": "ANSWER_EQUALS",
+              "question_id": "main_category_radio_question",
+              "value": "9"
+            }
+          ]
+        },
+        "component_ids": [
+          "user_input_header",
+          "user_input_textarea"
+        ],
+        "next_button": {
+          "phrase_id": "continue_button_phrase"
+        }
+      },
+      {
+        "id": "sub_category_privacy_violation_step",
+        "visible": {
+          "type": "ANSWER_EQUALS",
+          "question_id": "main_category_radio_question",
+          "value": "10"
+        },
+        "component_ids": [
+          "sub_category_privacy_violation_selection_header",
+          "radio_sub_category_privacy_violation_radio_group",
+          "sub_category_entering_listing_radio_group",
+          "sub_category_entering_listing_button",
+          "sub_category_other_privacy_radio_group",
+          "sub_category_other_privacy_button"
+        ],
+        "next_button": {
+          "disabled": {
+            "type": "ANSWER_NOT_ONE_OF",
+            "question_id": "sub_category_radio_question",
+            "values": [
+              "18"
+            ]
+          },
+          "phrase_id": "continue_button_phrase"
+        }
+      },
+      {
+        "id": "privacy_violation_input_step",
+        "visible": {
+          "type": "AND",
+          "conditions": [
+            {
+              "type": "ANSWER_ONE_OF",
+              "question_id": "sub_category_radio_question",
+              "values": [
+                "18"
+              ]
+            },
+            {
+              "type": "ANSWER_ONE_OF",
+              "question_id": "main_category_radio_question",
+              "values": [
+                "10"
+              ]
+            }
+          ]
+        },
+        "component_ids": [
+          "user_input_header",
+          "user_input_textarea",
+          "privacy_violation_list"
+        ],
+        "next_button": {
+          "phrase_id": "continue_button_phrase"
+        }
+      },
+      {
+        "id": "main_category_injury_step",
+        "visible": {
+          "type": "ANSWER_ONE_OF",
+          "question_id": "main_category_radio_question",
+          "values": [
+            "6"
+          ]
+        },
+        "component_ids": [
+          "user_input_header",
+          "user_input_textarea",
+          "injury_list"
+        ],
+        "next_button": {
+          "phrase_id": "continue_button_phrase"
+        }
+      },
+      {
+        "id": "main_category_sexual_assault_step",
+        "visible": {
+          "type": "ANSWER_ONE_OF",
+          "question_id": "main_category_radio_question",
+          "values": [
+            "2"
+          ]
+        },
+        "component_ids": [
+          "user_input_header",
+          "user_input_textarea",
+          "sexual_assault_list"
+        ],
+        "next_button": {
+          "phrase_id": "continue_button_phrase"
+        }
+      },
+      {
+        "id": "main_category_physical_assault_step",
+        "visible": {
+          "type": "ANSWER_ONE_OF",
+          "question_id": "main_category_radio_question",
+          "values": [
+            "3"
+          ]
+        },
+        "component_ids": [
+          "user_input_header",
+          "user_input_textarea",
+          "physical_assault_list"
+        ],
+        "next_button": {
+          "phrase_id": "continue_button_phrase"
+        }
+      },
+      {
+        "id": "last_step-HM43BZK4XZ-review",
+        "component_ids": [
+          "contact_prefs_header",
+          "contact_prefs_radio_component",
+          "phone_contact_prefs_textarea"
+        ],
+        "next_button": {
+          "disabled": {
+            "type": "ANSWER_NOT_ONE_OF",
+            "question_id": "contact_pref_radio_question",
+            "values": [
+              "email",
+              "phone"
+            ]
+          },
+          "phrase_id": "save_button_phrase"
+        }
+      }
+    ],
+    "id": "report_unsafe_behavior/1",
+    "entity_id_string": "1"
+  },
+  "metadata": {}
+}

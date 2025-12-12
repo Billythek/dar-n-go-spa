@@ -1,0 +1,40 @@
+═══════════════════════════════════════════════════════════════════════════
+    🏠 DARDZ - SITE DE LOCATION IMMOBILIÈRE POUR L'ALGÉRIE 🇩🇿
+═══════════════════════════════════════════════════════════════════════════
+
+📍 FICHIER PRINCIPAL:
+   /data/data/com.termux/files/home/airbnb_analysis/dardz/index.html
+
+🚀 POUR OUVRIR LE SITE:
+
+   Depuis Termux:
+   $ termux-open index.html
+
+   Ou avec serveur:
+   $ python -m http.server 8000
+   Puis ouvrir: http://localhost:8000
+
+═══════════════════════════════════════════════════════════════════════════
+
+✨ CE QUI A ÉTÉ CRÉÉ:
+
+   ✓ 7 pages complètes (Accueil, Explorer, Favoris, Messages, Profil, Hôte, Détail)
+   ✓ 12 logements avec prix DZD réels
+   ✓ Palette méditerranéenne (terracotta, bleu, sable, or)
+   ✓ Navigation SPA fluide
+   ✓ Système favoris localStorage
+   ✓ Animations Lottie professionnelles
+   ✓ Design responsive mobile-first
+   ✓ Paiements: CIB, Edahabia, BaridiMob
+
+═══════════════════════════════════════════════════════════════════════════
+
+📚 DOCUMENTATION:
+
+   Rapport détaillé:
+   /data/data/com.termux/files/home/airbnb_analysis/RAPPORT_FINAL_DARDZ.txt
+
+   README complet:
+   /data/data/com.termux/files/home/airbnb_analysis/README_DARDZ.md
+
+═══════════════════════════════════════════════════════════════════════════
