@@ -1,12 +1,25 @@
-// DarDZ - Application JavaScript Principale
-// Navigation SPA + Options Animaux + Toutes fonctionnalités
+/**
+ * DarDZ - Application JavaScript Principale
+ * Version 2.0 - Securisee et Accessible
+ * @module app
+ */
 
-// État global de l'application
+'use strict';
+
+// ============================================
+// ETAT GLOBAL DE L'APPLICATION
+// ============================================
+
+/**
+ * Etat global de l'application
+ * @type {Object}
+ */
 const APP_STATE = {
     currentPage: 'accueil',
     selectedListing: null,
-    favorites: JSON.parse(localStorage.getItem('dardz_favorites') || '[]'),
-    darkMode: localStorage.getItem('dardz_darkMode') === 'true',
+    favorites: DarDZ.Utils.Storage.get('dardz_favorites', []),
+    darkMode: DarDZ.Utils.Storage.get('dardz_darkMode', false),
+    focusTrap: null,
     searchFilters: {
         destination: '',
         dateArrivee: '',
@@ -27,35 +40,61 @@ const APP_STATE = {
     }
 };
 
-// Navigation SPA
+// ============================================
+// NAVIGATION SPA
+// ============================================
+
+/**
+ * Affiche une page specifique de l'application
+ * @param {string} pageName - Nom de la page a afficher
+ */
 function showPage(pageName) {
-    // Cacher toutes les pages
-    document.querySelectorAll('[data-page]').forEach(page => {
-        page.style.display = 'none';
-    });
-    
-    // Afficher la page demandée
-    const page = document.querySelector(`[data-page="${pageName}"]`);
-    if (page) {
-        page.style.display = 'block';
-        APP_STATE.currentPage = pageName;
-        
-        // Mise à jour navigation active
-        document.querySelectorAll('.nav-link').forEach(link => {
-            link.classList.remove('active');
+    try {
+        // Cacher toutes les pages
+        document.querySelectorAll('[data-page]').forEach(page => {
+            page.style.display = 'none';
+            page.setAttribute('aria-hidden', 'true');
         });
-        document.querySelector(`[data-nav="${pageName}"]`)?.classList.add('active');
-        
-        // Scroll to top
-        window.scrollTo(0, 0);
-        
-        // Init page spécifique
-        initPage(pageName);
+
+        // Afficher la page demandee
+        const page = document.querySelector(`[data-page="${escapeAttr(pageName)}"]`);
+        if (page) {
+            page.style.display = 'block';
+            page.setAttribute('aria-hidden', 'false');
+            APP_STATE.currentPage = pageName;
+
+            // Mise a jour navigation active
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('active');
+                link.setAttribute('aria-current', 'false');
+            });
+
+            const activeLink = document.querySelector(`[data-nav="${escapeAttr(pageName)}"]`);
+            if (activeLink) {
+                activeLink.classList.add('active');
+                activeLink.setAttribute('aria-current', 'page');
+            }
+
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+
+            // Init page specifique
+            initPage(pageName);
+
+            // Annoncer le changement de page
+            DarDZ.Utils.A11y.announce(`Page ${pageName} chargee`);
+        }
+    } catch (error) {
+        DarDZ.Utils.log.error('showPage error:', error);
     }
 }
 
+/**
+ * Initialise le contenu d'une page
+ * @param {string} pageName - Nom de la page
+ */
 function initPage(pageName) {
-    switch(pageName) {
+    switch (pageName) {
         case 'accueil':
             renderAccueil();
             break;
@@ -77,7 +116,15 @@ function initPage(pageName) {
     }
 }
 
-// Gestion des voyageurs avec ANIMAUX
+// ============================================
+// GESTION DES VOYAGEURS
+// ============================================
+
+/**
+ * Met a jour le nombre de voyageurs
+ * @param {string} type - Type de voyageur (adultes, enfants, etc.)
+ * @param {number} delta - Valeur a ajouter (+1 ou -1)
+ */
 function updateVoyageurs(type, delta) {
     const current = APP_STATE.voyageurs[type];
     const limits = {
@@ -87,47 +134,52 @@ function updateVoyageurs(type, delta) {
         chiens: { min: 0, max: 3 },
         chats: { min: 0, max: 3 }
     };
-    
+
     if (type === 'autresAnimaux') {
         APP_STATE.voyageurs[type] = !APP_STATE.voyageurs[type];
-    } else {
+    } else if (limits[type]) {
         const newValue = current + delta;
         const limit = limits[type];
-        
+
         if (newValue >= limit.min && newValue <= limit.max) {
             APP_STATE.voyageurs[type] = newValue;
         }
     }
-    
+
     updateVoyageursDisplay();
 }
 
+/**
+ * Met a jour l'affichage du nombre de voyageurs
+ */
 function updateVoyageursDisplay() {
     const v = APP_STATE.voyageurs;
     const total = v.adultes + v.enfants + v.bebes;
     const totalAnimaux = v.chiens + v.chats + (v.autresAnimaux ? 1 : 0);
-    
+
     let text = `${total} voyageur${total > 1 ? 's' : ''}`;
     if (totalAnimaux > 0) {
         text += `, ${totalAnimaux} animal${totalAnimaux > 1 ? 'aux' : ''}`;
     }
-    
+
     document.querySelectorAll('.voyageurs-display').forEach(el => {
         el.textContent = text;
     });
-    
-    // Mise à jour des compteurs
+
+    // Mise a jour des compteurs
     Object.keys(v).forEach(key => {
         if (key !== 'autresAnimaux') {
-            const el = document.querySelector(`[data-count="${key}"]`);
+            const el = document.querySelector(`[data-count="${escapeAttr(key)}"]`);
             if (el) el.textContent = v[key];
         }
     });
-    
-    // Mise à jour boutons +/-
+
     updateVoyageursButtons();
 }
 
+/**
+ * Met a jour l'etat des boutons +/-
+ */
 function updateVoyageursButtons() {
     const v = APP_STATE.voyageurs;
     const limits = {
@@ -137,53 +189,91 @@ function updateVoyageursButtons() {
         chiens: { min: 0, max: 3 },
         chats: { min: 0, max: 3 }
     };
-    
+
     Object.keys(limits).forEach(key => {
-        const minusBtn = document.querySelector(`[data-minus="${key}"]`);
-        const plusBtn = document.querySelector(`[data-plus="${key}"]`);
-        
+        const minusBtn = document.querySelector(`[data-minus="${escapeAttr(key)}"]`);
+        const plusBtn = document.querySelector(`[data-plus="${escapeAttr(key)}"]`);
+
         if (minusBtn) {
-            minusBtn.disabled = v[key] <= limits[key].min;
+            const isDisabled = v[key] <= limits[key].min;
+            minusBtn.disabled = isDisabled;
+            minusBtn.setAttribute('aria-disabled', isDisabled.toString());
         }
         if (plusBtn) {
-            plusBtn.disabled = v[key] >= limits[key].max;
+            const isDisabled = v[key] >= limits[key].max;
+            plusBtn.disabled = isDisabled;
+            plusBtn.setAttribute('aria-disabled', isDisabled.toString());
         }
     });
 }
 
-// Gestion des favoris
+// ============================================
+// GESTION DES FAVORIS
+// ============================================
+
+/**
+ * Ajoute ou retire un logement des favoris
+ * @param {number} listingId - ID du logement
+ */
 function toggleFavorite(listingId) {
     const index = APP_STATE.favorites.indexOf(listingId);
-    
+    let message;
+
     if (index === -1) {
         APP_STATE.favorites.push(listingId);
-        showToast('Ajouté aux favoris ❤️');
+        message = 'Ajoute aux favoris';
     } else {
         APP_STATE.favorites.splice(index, 1);
-        showToast('Retiré des favoris');
+        message = 'Retire des favoris';
     }
-    
-    localStorage.setItem('dardz_favorites', JSON.stringify(APP_STATE.favorites));
+
+    DarDZ.Utils.Storage.set('dardz_favorites', APP_STATE.favorites);
     updateFavoriteButtons();
+    showToast(message);
+    DarDZ.Utils.A11y.announce(message);
 }
 
+/**
+ * Verifie si un logement est en favori
+ * @param {number} listingId - ID du logement
+ * @returns {boolean}
+ */
 function isFavorite(listingId) {
     return APP_STATE.favorites.includes(listingId);
 }
 
+/**
+ * Met a jour l'affichage des boutons favoris
+ */
 function updateFavoriteButtons() {
     document.querySelectorAll('[data-favorite]').forEach(btn => {
-        const listingId = parseInt(btn.dataset.favorite);
+        const listingId = parseInt(btn.dataset.favorite, 10);
         const isFav = isFavorite(listingId);
         btn.classList.toggle('active', isFav);
-        btn.querySelector('svg').style.fill = isFav ? '#C65D3B' : 'none';
+        btn.setAttribute('aria-pressed', isFav.toString());
+        btn.setAttribute('aria-label', isFav ? 'Retirer des favoris' : 'Ajouter aux favoris');
+
+        const svg = btn.querySelector('svg');
+        if (svg) {
+            svg.style.fill = isFav ? '#C65D3B' : 'none';
+        }
     });
 }
 
-// Toast notifications
+// ============================================
+// NOTIFICATIONS TOAST
+// ============================================
+
+/**
+ * Affiche une notification toast
+ * @param {string} message - Message a afficher
+ * @param {number} duration - Duree en ms
+ */
 function showToast(message, duration = 3000) {
     const toast = document.createElement('div');
     toast.className = 'toast';
+    toast.setAttribute('role', 'alert');
+    toast.setAttribute('aria-live', 'assertive');
     toast.textContent = message;
     toast.style.cssText = `
         position: fixed;
@@ -197,313 +287,610 @@ function showToast(message, duration = 3000) {
         z-index: 10000;
         animation: slideUp 0.3s ease;
     `;
-    
+
     document.body.appendChild(toast);
-    
+
     setTimeout(() => {
         toast.style.animation = 'slideDown 0.3s ease';
         setTimeout(() => toast.remove(), 300);
     }, duration);
 }
 
-// Dark Mode
+// ============================================
+// MODE SOMBRE
+// ============================================
+
+/**
+ * Active/desactive le mode sombre
+ */
 function toggleDarkMode() {
     APP_STATE.darkMode = !APP_STATE.darkMode;
     document.body.classList.toggle('dark-mode', APP_STATE.darkMode);
-    localStorage.setItem('dardz_darkMode', APP_STATE.darkMode);
-    
+    DarDZ.Utils.Storage.set('dardz_darkMode', APP_STATE.darkMode);
+
     const icon = document.querySelector('#dark-mode-toggle svg use');
     if (icon) {
         icon.setAttribute('href', APP_STATE.darkMode ? '#icon-sun' : '#icon-moon');
     }
+
+    DarDZ.Utils.A11y.announce(APP_STATE.darkMode ? 'Mode sombre active' : 'Mode clair active');
 }
 
-// Autocomplete wilayas
+// ============================================
+// AUTOCOMPLETE WILAYAS
+// ============================================
+
+/**
+ * Initialise l'autocomplete des wilayas
+ */
 function initAutocomplete() {
     const input = document.querySelector('#destination-input');
     const dropdown = document.querySelector('#destination-dropdown');
-    
+
     if (!input || !dropdown) return;
-    
-    input.addEventListener('input', (e) => {
-        const query = e.target.value.toLowerCase();
-        
+
+    const handleInput = DarDZ.Utils.Helpers.debounce((e) => {
+        const query = e.target.value.toLowerCase().trim();
+
         if (query.length === 0) {
             dropdown.style.display = 'none';
+            dropdown.setAttribute('aria-hidden', 'true');
             return;
         }
-        
+
         const matches = WILAYAS.filter(w => w.toLowerCase().includes(query));
-        
+
         if (matches.length > 0) {
-            dropdown.innerHTML = matches.map(wilaya => `
-                <div class="dropdown-item" onclick="selectDestination('${wilaya}')">
-                    <span>${wilaya}</span>
+            dropdown.innerHTML = matches.map((wilaya, index) => `
+                <div class="dropdown-item"
+                     role="option"
+                     tabindex="0"
+                     data-wilaya="${escapeAttr(wilaya)}"
+                     id="wilaya-option-${index}">
+                    <span>${escapeHTML(wilaya)}</span>
                 </div>
             `).join('');
             dropdown.style.display = 'block';
+            dropdown.setAttribute('aria-hidden', 'false');
+
+            // Ajouter les event listeners
+            dropdown.querySelectorAll('.dropdown-item').forEach(item => {
+                item.addEventListener('click', () => selectDestination(item.dataset.wilaya));
+                item.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        selectDestination(item.dataset.wilaya);
+                    }
+                });
+            });
         } else {
             dropdown.style.display = 'none';
+            dropdown.setAttribute('aria-hidden', 'true');
         }
-    });
+    }, 200);
+
+    input.addEventListener('input', handleInput);
 }
 
+/**
+ * Selectionne une destination
+ * @param {string} wilaya - Nom de la wilaya
+ */
 function selectDestination(wilaya) {
-    document.querySelector('#destination-input').value = wilaya;
-    document.querySelector('#destination-dropdown').style.display = 'none';
+    const input = document.querySelector('#destination-input');
+    const dropdown = document.querySelector('#destination-dropdown');
+
+    if (input) input.value = wilaya;
+    if (dropdown) {
+        dropdown.style.display = 'none';
+        dropdown.setAttribute('aria-hidden', 'true');
+    }
+
     APP_STATE.searchFilters.destination = wilaya;
+    DarDZ.Utils.A11y.announce(`Destination selectionnee: ${wilaya}`);
 }
 
-// Recherche et filtres
+// ============================================
+// RECHERCHE ET FILTRES
+// ============================================
+
+/**
+ * Effectue une recherche avec les filtres actuels
+ * @returns {Array} Resultats de la recherche
+ */
 function performSearch() {
     const filters = APP_STATE.searchFilters;
     const voyageurs = APP_STATE.voyageurs;
-    
+
     let results = [...LOGEMENTS];
-    
+
     // Filtre destination
     if (filters.destination) {
         results = results.filter(l => l.wilaya === filters.destination);
     }
-    
+
     // Filtre prix
     results = results.filter(l => l.prix >= filters.prixMin && l.prix <= filters.prixMax);
-    
+
     // Filtre types
     if (filters.types.length > 0) {
         results = results.filter(l => filters.types.includes(l.type));
     }
-    
+
     // Filtre animaux
     if (filters.animauxAcceptes) {
         results = results.filter(l => l.animauxAcceptes === true);
     }
-    
-    // Filtre voyageurs (capacité)
+
+    // Filtre voyageurs (capacite)
     const totalVoyageurs = voyageurs.adultes + voyageurs.enfants + voyageurs.bebes;
     results = results.filter(l => l.voyageurs >= totalVoyageurs);
-    
+
     return results;
 }
 
-// Render functions
+// ============================================
+// RENDU DES PAGES
+// ============================================
+
+/**
+ * Rend la page d'accueil
+ */
 function renderAccueil() {
     const container = document.querySelector('#accueil-listings');
     if (!container) return;
-    
-    const featured = LOGEMENTS.slice(0, 6);
-    container.innerHTML = featured.map(listing => createListingCard(listing)).join('');
-    updateFavoriteButtons();
-}
 
-function renderExplorer() {
-    const results = performSearch();
-    const container = document.querySelector('#explorer-listings');
-    if (!container) return;
-    
-    container.innerHTML = results.map(listing => createListingCard(listing)).join('');
-    updateFavoriteButtons();
-}
-
-function renderFavoris() {
-    const container = document.querySelector('#favoris-listings');
-    if (!container) return;
-    
-    const favoriteListings = LOGEMENTS.filter(l => isFavorite(l.id));
-    
-    if (favoriteListings.length === 0) {
-        container.innerHTML = `
-            <div class="empty-state">
-                <div id="empty-anim" style="width: 200px; height: 200px; margin: 0 auto;"></div>
-                <h3>Aucun favori pour le moment</h3>
-                <p>Explorez nos logements et ajoutez vos coups de cœur !</p>
-                <button onclick="showPage('explorer')" class="btn-primary">Explorer</button>
-            </div>
-        `;
-        
-        // Load empty state animation
-        if (typeof lottie !== 'undefined') {
-            lottie.loadAnimation({
-                container: document.getElementById('empty-anim'),
-                renderer: 'svg',
-                loop: true,
-                autoplay: true,
-                path: 'animations/n2_saved_emptry_state.json'
-            });
-        }
-    } else {
-        container.innerHTML = favoriteListings.map(listing => createListingCard(listing)).join('');
+    try {
+        const featured = LOGEMENTS.slice(0, 6);
+        container.innerHTML = featured.map(listing => createListingCard(listing)).join('');
+        attachListingEventListeners(container);
         updateFavoriteButtons();
+    } catch (error) {
+        DarDZ.Utils.log.error('renderAccueil error:', error);
+        container.innerHTML = createErrorState();
     }
 }
 
+/**
+ * Rend la page explorer
+ */
+function renderExplorer() {
+    const container = document.querySelector('#explorer-listings');
+    if (!container) return;
+
+    try {
+        const results = performSearch();
+        container.innerHTML = results.map(listing => createListingCard(listing)).join('');
+        attachListingEventListeners(container);
+        updateFavoriteButtons();
+    } catch (error) {
+        DarDZ.Utils.log.error('renderExplorer error:', error);
+        container.innerHTML = createErrorState();
+    }
+}
+
+/**
+ * Rend la page favoris
+ */
+function renderFavoris() {
+    const container = document.querySelector('#favoris-listings');
+    if (!container) return;
+
+    try {
+        const favoriteListings = LOGEMENTS.filter(l => isFavorite(l.id));
+
+        if (favoriteListings.length === 0) {
+            container.innerHTML = createEmptyState();
+            loadEmptyStateAnimation();
+        } else {
+            container.innerHTML = favoriteListings.map(listing => createListingCard(listing)).join('');
+            attachListingEventListeners(container);
+            updateFavoriteButtons();
+        }
+    } catch (error) {
+        DarDZ.Utils.log.error('renderFavoris error:', error);
+        container.innerHTML = createErrorState();
+    }
+}
+
+/**
+ * Rend la page profil
+ */
 function renderProfil() {
     // Implementation profil page
 }
 
+/**
+ * Rend la page messages
+ */
 function renderMessages() {
     // Implementation messages page
 }
 
+/**
+ * Rend la page devenir hote
+ */
 function renderDevenirHote() {
-    // Implementation devenir hôte page
+    // Implementation devenir hote page
 }
 
+// ============================================
+// CREATION DES COMPOSANTS
+// ============================================
+
+/**
+ * Cree une carte de logement
+ * @param {Object} listing - Donnees du logement
+ * @returns {string} HTML de la carte
+ */
 function createListingCard(listing) {
+    const s = DarDZ.Utils.Security;
+    const isFav = isFavorite(listing.id);
+
     return `
-        <div class="listing-card" onclick="openDetailModal(${listing.id})">
+        <article class="listing-card"
+                 data-listing-id="${listing.id}"
+                 tabindex="0"
+                 role="button"
+                 aria-label="${s.escapeAttr(listing.titre)} - ${listing.prix.toLocaleString()} DZD par nuit">
             <div class="listing-image">
-                <img src="${listing.images[0]}" alt="${listing.titre}">
+                <img src="${s.escapeAttr(listing.images[0])}"
+                     alt="${s.escapeAttr(listing.titre)}"
+                     loading="lazy"
+                     onerror="this.src='images/placeholder.svg'">
                 ${listing.superhote ? `
-                    <div class="listing-badge gold">
-                        <img src="images/ui_res_pdp_reviews_guestfavoriteheader__left_3d_laurel_gold.webp" 
+                    <div class="listing-badge gold" aria-label="Superhote">
+                        <img src="images/ui_res_pdp_reviews_guestfavoriteheader__left_3d_laurel_gold.webp"
+                             alt="" aria-hidden="true"
                              style="width:16px;height:16px;margin-right:3px;">
-                        Superhôte
+                        Superhote
                     </div>
                 ` : ''}
-                <button class="listing-favorite ${isFavorite(listing.id) ? 'active' : ''}" 
+                <button class="listing-favorite ${isFav ? 'active' : ''}"
                         data-favorite="${listing.id}"
-                        onclick="event.stopPropagation(); toggleFavorite(${listing.id})">
-                    <svg viewBox="0 0 24 24">
+                        aria-label="${isFav ? 'Retirer des favoris' : 'Ajouter aux favoris'}"
+                        aria-pressed="${isFav}">
+                    <svg viewBox="0 0 24 24" aria-hidden="true">
                         <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
                     </svg>
                 </button>
             </div>
             <div class="listing-info">
                 <div class="listing-location">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
                         <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
                         <circle cx="12" cy="10" r="3"></circle>
                     </svg>
-                    ${listing.quartier}, ${listing.wilaya}
+                    ${s.escapeHTML(listing.quartier)}, ${s.escapeHTML(listing.wilaya)}
                 </div>
-                <h3 class="listing-title">${listing.titre}</h3>
+                <h3 class="listing-title">${s.escapeHTML(listing.titre)}</h3>
                 <div class="listing-details">
                     ${listing.voyageurs} voyageurs · ${listing.chambres} chambres · ${listing.sallesBain} sdb
-                    ${listing.animauxAcceptes ? ' · 🐕 Animaux OK' : ''}
+                    ${listing.animauxAcceptes ? ' · <span aria-label="Animaux acceptes">🐕 Animaux OK</span>' : ''}
                 </div>
                 <div class="listing-footer">
-                    <div class="listing-price">${listing.prix.toLocaleString()} DZD <span>/ nuit</span></div>
-                    <div class="listing-rating">
-                        <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                    <div class="listing-price">
+                        <data value="${listing.prix}">${listing.prix.toLocaleString()} DZD</data>
+                        <span>/ nuit</span>
+                    </div>
+                    <div class="listing-rating" aria-label="Note ${listing.note} sur 5, ${listing.nbAvis} avis">
+                        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
                         ${listing.note} (${listing.nbAvis})
                     </div>
                 </div>
             </div>
+        </article>
+    `;
+}
+
+/**
+ * Attache les event listeners aux cartes de logement
+ * @param {HTMLElement} container - Conteneur des cartes
+ */
+function attachListingEventListeners(container) {
+    container.querySelectorAll('.listing-card').forEach(card => {
+        const listingId = parseInt(card.dataset.listingId, 10);
+
+        // Click sur la carte
+        card.addEventListener('click', (e) => {
+            if (!e.target.closest('.listing-favorite')) {
+                openDetailModal(listingId);
+            }
+        });
+
+        // Navigation clavier
+        card.addEventListener('keydown', (e) => {
+            if ((e.key === 'Enter' || e.key === ' ') && !e.target.closest('.listing-favorite')) {
+                e.preventDefault();
+                openDetailModal(listingId);
+            }
+        });
+    });
+
+    // Boutons favoris
+    container.querySelectorAll('.listing-favorite').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const listingId = parseInt(btn.dataset.favorite, 10);
+            toggleFavorite(listingId);
+        });
+    });
+}
+
+/**
+ * Cree un etat vide
+ * @returns {string} HTML de l'etat vide
+ */
+function createEmptyState() {
+    return `
+        <div class="empty-state" role="status">
+            <div id="empty-anim" style="width: 200px; height: 200px; margin: 0 auto;" aria-hidden="true"></div>
+            <h3>Aucun favori pour le moment</h3>
+            <p>Explorez nos logements et ajoutez vos coups de coeur !</p>
+            <button class="btn-primary" data-action="navigate" data-page="explorer">Explorer</button>
         </div>
     `;
 }
 
+/**
+ * Cree un etat d'erreur
+ * @returns {string} HTML de l'etat d'erreur
+ */
+function createErrorState() {
+    return `
+        <div class="error-state" role="alert">
+            <h3>Une erreur est survenue</h3>
+            <p>Impossible de charger les logements.</p>
+            <button class="btn-primary" onclick="location.reload()">Reessayer</button>
+        </div>
+    `;
+}
+
+/**
+ * Charge l'animation de l'etat vide
+ */
+function loadEmptyStateAnimation() {
+    if (typeof lottie !== 'undefined') {
+        const container = document.getElementById('empty-anim');
+        if (container) {
+            lottie.loadAnimation({
+                container: container,
+                renderer: 'svg',
+                loop: true,
+                autoplay: true,
+                path: 'animations/n2_saved_emptry_state.json'
+            });
+        }
+    }
+}
+
+// ============================================
+// MODAL DETAIL
+// ============================================
+
+/**
+ * Ouvre la modale de detail d'un logement
+ * @param {number} listingId - ID du logement
+ */
 function openDetailModal(listingId) {
     const listing = LOGEMENTS.find(l => l.id === listingId);
-    if (!listing) return;
-    
+    if (!listing) {
+        DarDZ.Utils.log.error('Listing not found:', listingId);
+        return;
+    }
+
     APP_STATE.selectedListing = listing;
-    
-    // Build modal content
+
     const modal = document.querySelector('#detail-modal');
     const modalContent = document.querySelector('#modal-detail-content');
-    
+
+    if (!modal || !modalContent) return;
+
+    const s = DarDZ.Utils.Security;
+
     modalContent.innerHTML = `
         <div class="modal-gallery">
-            <img src="${listing.images[0]}" alt="${listing.titre}" id="modal-main-image">
-            <div class="modal-thumbnails">
+            <img src="${s.escapeAttr(listing.images[0])}"
+                 alt="${s.escapeAttr(listing.titre)}"
+                 id="modal-main-image"
+                 loading="lazy">
+            <div class="modal-thumbnails" role="listbox" aria-label="Galerie photos">
                 ${listing.images.map((img, i) => `
-                    <img src="${img}" alt="${listing.titre}" 
-                         onclick="changeModalImage('${img}')"
-                         class="${i === 0 ? 'active' : ''}">
+                    <img src="${s.escapeAttr(img)}"
+                         alt="Photo ${i + 1} de ${s.escapeAttr(listing.titre)}"
+                         role="option"
+                         tabindex="0"
+                         data-src="${s.escapeAttr(img)}"
+                         class="${i === 0 ? 'active' : ''}"
+                         aria-selected="${i === 0}">
                 `).join('')}
             </div>
         </div>
-        
+
         <div class="modal-header">
             <div>
-                <h2>${listing.titre}</h2>
+                <h2 id="modal-title">${s.escapeHTML(listing.titre)}</h2>
                 <div class="modal-meta">
-                    <span>📍 ${listing.quartier}, ${listing.wilaya}</span>
-                    <span>⭐ ${listing.note} (${listing.nbAvis} avis)</span>
-                    ${listing.superhote ? '<span class="badge-superhote">Superhôte</span>' : ''}
+                    <span>📍 ${s.escapeHTML(listing.quartier)}, ${s.escapeHTML(listing.wilaya)}</span>
+                    <span aria-label="Note ${listing.note} sur 5">⭐ ${listing.note} (${listing.nbAvis} avis)</span>
+                    ${listing.superhote ? '<span class="badge-superhote">Superhote</span>' : ''}
                 </div>
             </div>
-            <button onclick="closeDetailModal()" class="modal-close">✕</button>
+            <button class="modal-close"
+                    aria-label="Fermer la modale"
+                    data-action="close-modal">✕</button>
         </div>
-        
+
         <div class="modal-body">
             <div class="modal-main">
                 <div class="modal-host">
-                    <img src="${listing.hote.photo}" alt="${listing.hote.nom}">
+                    <img src="${s.escapeAttr(listing.hote.photo)}"
+                         alt="Photo de ${s.escapeAttr(listing.hote.nom)}"
+                         loading="lazy">
                     <div>
-                        <strong>${listing.hote.nom}</strong>
-                        <div>Hôte depuis ${listing.hote.inscription}</div>
+                        <strong>${s.escapeHTML(listing.hote.nom)}</strong>
+                        <div>Hote depuis ${s.escapeHTML(listing.hote.inscription)}</div>
                     </div>
                 </div>
-                
-                <div class="modal-features">
-                    <div><strong>${listing.voyageurs}</strong> voyageurs</div>
-                    <div><strong>${listing.chambres}</strong> chambres</div>
-                    <div><strong>${listing.lits}</strong> lits</div>
-                    <div><strong>${listing.sallesBain}</strong> sdb</div>
+
+                <div class="modal-features" role="list" aria-label="Caracteristiques">
+                    <div role="listitem"><strong>${listing.voyageurs}</strong> voyageurs</div>
+                    <div role="listitem"><strong>${listing.chambres}</strong> chambres</div>
+                    <div role="listitem"><strong>${listing.lits}</strong> lits</div>
+                    <div role="listitem"><strong>${listing.sallesBain}</strong> sdb</div>
                 </div>
-                
+
                 <div class="modal-description">
-                    <h3>À propos de ce logement</h3>
-                    <p>${listing.description}</p>
+                    <h3>A propos de ce logement</h3>
+                    <p>${s.escapeHTML(listing.description)}</p>
                 </div>
-                
+
                 <div class="modal-equipements">
-                    <h3>Équipements</h3>
-                    <div class="equipements-grid">
-                        ${listing.equipements.map(eq => `<div>✓ ${eq}</div>`).join('')}
+                    <h3>Equipements</h3>
+                    <div class="equipements-grid" role="list">
+                        ${listing.equipements.map(eq => `<div role="listitem">✓ ${s.escapeHTML(eq)}</div>`).join('')}
                     </div>
                 </div>
-                
+
                 <div class="modal-regles">
-                    <h3>Règles du logement</h3>
-                    <div>🚭 ${listing.regles.fumeur ? 'Fumeur autorisé' : 'Non-fumeur'}</div>
-                    <div>🎉 ${listing.regles.fetes ? 'Fêtes autorisées' : 'Pas de fêtes'}</div>
-                    <div>🐕 ${listing.regles.animaux ? 'Animaux acceptés' : 'Animaux non acceptés'}</div>
+                    <h3>Regles du logement</h3>
+                    <div>🚭 ${listing.regles.fumeur ? 'Fumeur autorise' : 'Non-fumeur'}</div>
+                    <div>🎉 ${listing.regles.fetes ? 'Fetes autorisees' : 'Pas de fetes'}</div>
+                    <div>🐕 ${listing.regles.animaux ? 'Animaux acceptes' : 'Animaux non acceptes'}</div>
                 </div>
-                
+
                 <div class="modal-avis">
                     <h3>Avis clients</h3>
                     ${listing.avis.map(avis => `
                         <div class="avis-item">
                             <div class="avis-header">
-                                <strong>${avis.auteur}</strong>
-                                <span>${avis.date}</span>
+                                <strong>${s.escapeHTML(avis.auteur)}</strong>
+                                <span>${s.escapeHTML(avis.date)}</span>
                             </div>
-                            <div class="avis-stars">${'⭐'.repeat(avis.note)}</div>
-                            <p>${avis.texte}</p>
+                            <div class="avis-stars" aria-label="Note ${avis.note} sur 5">${'⭐'.repeat(avis.note)}</div>
+                            <p>${s.escapeHTML(avis.texte)}</p>
                         </div>
                     `).join('')}
                 </div>
             </div>
-            
+
             <div class="modal-sidebar">
                 <div class="reservation-widget">
-                    <div class="widget-price">${listing.prix.toLocaleString()} DZD <span>/ nuit</span></div>
-                    <button onclick="goToReservation(${listing.id})" class="btn-reserve">Réserver</button>
+                    <div class="widget-price">
+                        <data value="${listing.prix}">${listing.prix.toLocaleString()} DZD</data>
+                        <span>/ nuit</span>
+                    </div>
+                    <button class="btn-reserve" data-action="reserve" data-listing-id="${listing.id}">Reserver</button>
                 </div>
             </div>
         </div>
     `;
-    
+
+    // Afficher la modale
     modal.style.display = 'flex';
+    modal.setAttribute('aria-hidden', 'false');
     document.body.style.overflow = 'hidden';
+
+    // Attacher les event listeners
+    attachModalEventListeners(modal);
+
+    // Focus trap
+    APP_STATE.focusTrap = DarDZ.Utils.A11y.trapFocus(modal);
+
+    // Annoncer
+    DarDZ.Utils.A11y.announce(`Modale ouverte: ${listing.titre}`);
 }
 
-function closeDetailModal() {
-    document.querySelector('#detail-modal').style.display = 'none';
-    document.body.style.overflow = '';
-}
+/**
+ * Attache les event listeners a la modale
+ * @param {HTMLElement} modal - Element modal
+ */
+function attachModalEventListeners(modal) {
+    // Bouton fermer
+    modal.querySelectorAll('[data-action="close-modal"]').forEach(btn => {
+        btn.addEventListener('click', closeDetailModal);
+    });
 
-function changeModalImage(src) {
-    document.querySelector('#modal-main-image').src = src;
-    document.querySelectorAll('.modal-thumbnails img').forEach(img => {
-        img.classList.toggle('active', img.src === src);
+    // Bouton reserver
+    modal.querySelectorAll('[data-action="reserve"]').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const listingId = parseInt(btn.dataset.listingId, 10);
+            goToReservation(listingId);
+        });
+    });
+
+    // Thumbnails
+    modal.querySelectorAll('.modal-thumbnails img').forEach(img => {
+        const handleSelect = () => changeModalImage(img.dataset.src);
+        img.addEventListener('click', handleSelect);
+        img.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                handleSelect();
+            }
+        });
+    });
+
+    // Fermer avec Escape
+    modal.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+            closeDetailModal();
+        }
+    });
+
+    // Clic en dehors
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+            closeDetailModal();
+        }
     });
 }
 
+/**
+ * Ferme la modale de detail
+ */
+function closeDetailModal() {
+    const modal = document.querySelector('#detail-modal');
+    if (!modal) return;
+
+    modal.style.display = 'none';
+    modal.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+
+    // Liberer le focus trap
+    if (APP_STATE.focusTrap) {
+        APP_STATE.focusTrap.release();
+        APP_STATE.focusTrap = null;
+    }
+
+    DarDZ.Utils.A11y.announce('Modale fermee');
+}
+
+/**
+ * Change l'image principale de la modale
+ * @param {string} src - URL de l'image
+ */
+function changeModalImage(src) {
+    const mainImage = document.querySelector('#modal-main-image');
+    if (mainImage) {
+        mainImage.src = src;
+    }
+
+    document.querySelectorAll('.modal-thumbnails img').forEach(img => {
+        const isActive = img.dataset.src === src;
+        img.classList.toggle('active', isActive);
+        img.setAttribute('aria-selected', isActive.toString());
+    });
+}
+
+// ============================================
+// RESERVATION
+// ============================================
+
+/**
+ * Redirige vers la page de reservation
+ * @param {number} listingId - ID du logement
+ */
 function goToReservation(listingId) {
     closeDetailModal();
     APP_STATE.selectedListing = LOGEMENTS.find(l => l.id === listingId);
@@ -511,191 +898,220 @@ function goToReservation(listingId) {
     renderReservation();
 }
 
+/**
+ * Rend la page de reservation
+ */
 function renderReservation() {
     const listing = APP_STATE.selectedListing;
     if (!listing) {
         showPage('accueil');
         return;
     }
-    
+
     const container = document.querySelector('#reservation-content');
     if (!container) return;
-    
+
+    const s = DarDZ.Utils.Security;
     const v = APP_STATE.voyageurs;
-    const totalVoyageurs = v.adultes + v.enfants + v.bebes;
-    const totalAnimaux = v.chiens + v.chats + (v.autresAnimaux ? 1 : 0);
-    
+
     container.innerHTML = `
         <div class="reservation-container">
-            <h2>Finaliser la réservation</h2>
-            
+            <h2>Finaliser la reservation</h2>
+
             <div class="reservation-listing">
-                <img src="${listing.images[0]}" alt="${listing.titre}">
+                <img src="${s.escapeAttr(listing.images[0])}"
+                     alt="${s.escapeAttr(listing.titre)}"
+                     loading="lazy">
                 <div>
-                    <h3>${listing.titre}</h3>
-                    <p>${listing.quartier}, ${listing.wilaya}</p>
+                    <h3>${s.escapeHTML(listing.titre)}</h3>
+                    <p>${s.escapeHTML(listing.quartier)}, ${s.escapeHTML(listing.wilaya)}</p>
                 </div>
             </div>
-            
+
             <div class="reservation-form">
-                <h3>Voyageurs</h3>
-                <div class="voyageurs-selector">
-                    <div class="voyageur-item">
-                        <div>
-                            <strong>Adultes</strong>
-                            <span>13 ans et plus</span>
-                        </div>
-                        <div class="counter">
-                            <button data-minus="adultes" onclick="updateVoyageurs('adultes', -1)">−</button>
-                            <span data-count="adultes">${v.adultes}</span>
-                            <button data-plus="adultes" onclick="updateVoyageurs('adultes', 1)">+</button>
-                        </div>
-                    </div>
-                    
-                    <div class="voyageur-item">
-                        <div>
-                            <strong>Enfants</strong>
-                            <span>2-12 ans</span>
-                        </div>
-                        <div class="counter">
-                            <button data-minus="enfants" onclick="updateVoyageurs('enfants', -1)">−</button>
-                            <span data-count="enfants">${v.enfants}</span>
-                            <button data-plus="enfants" onclick="updateVoyageurs('enfants', 1)">+</button>
-                        </div>
-                    </div>
-                    
-                    <div class="voyageur-item">
-                        <div>
-                            <strong>Bébés</strong>
-                            <span>Moins de 2 ans</span>
-                        </div>
-                        <div class="counter">
-                            <button data-minus="bebes" onclick="updateVoyageurs('bebes', -1)">−</button>
-                            <span data-count="bebes">${v.bebes}</span>
-                            <button data-plus="bebes" onclick="updateVoyageurs('bebes', 1)">+</button>
-                        </div>
-                    </div>
-                    
+                <h3 id="voyageurs-heading">Voyageurs</h3>
+                <div class="voyageurs-selector" role="group" aria-labelledby="voyageurs-heading">
+                    ${createVoyageurItem('adultes', 'Adultes', '13 ans et plus', v.adultes)}
+                    ${createVoyageurItem('enfants', 'Enfants', '2-12 ans', v.enfants)}
+                    ${createVoyageurItem('bebes', 'Bebes', 'Moins de 2 ans', v.bebes)}
+
                     ${listing.animauxAcceptes ? `
                         <hr>
-                        <h4>Animaux de compagnie</h4>
-                        
-                        <div class="voyageur-item">
-                            <div>
-                                <strong>🐕 Chiens</strong>
-                                <span>Maximum 3</span>
-                            </div>
-                            <div class="counter">
-                                <button data-minus="chiens" onclick="updateVoyageurs('chiens', -1)">−</button>
-                                <span data-count="chiens">${v.chiens}</span>
-                                <button data-plus="chiens" onclick="updateVoyageurs('chiens', 1)">+</button>
-                            </div>
-                        </div>
-                        
-                        <div class="voyageur-item">
-                            <div>
-                                <strong>🐈 Chats</strong>
-                                <span>Maximum 3</span>
-                            </div>
-                            <div class="counter">
-                                <button data-minus="chats" onclick="updateVoyageurs('chats', -1)">−</button>
-                                <span data-count="chats">${v.chats}</span>
-                                <button data-plus="chats" onclick="updateVoyageurs('chats', 1)">+</button>
-                            </div>
-                        </div>
-                        
+                        <h4 id="animaux-heading">Animaux de compagnie</h4>
+                        ${createVoyageurItem('chiens', '🐕 Chiens', 'Maximum 3', v.chiens)}
+                        ${createVoyageurItem('chats', '🐈 Chats', 'Maximum 3', v.chats)}
                         <div class="voyageur-item">
                             <div>
                                 <strong>🐦 Autres animaux</strong>
                                 <span>Oiseaux, rongeurs, etc.</span>
                             </div>
                             <label class="switch">
-                                <input type="checkbox" ${v.autresAnimaux ? 'checked' : ''} 
-                                       onchange="updateVoyageurs('autresAnimaux', 0)">
+                                <input type="checkbox" ${v.autresAnimaux ? 'checked' : ''}
+                                       id="autres-animaux-toggle"
+                                       aria-label="Autres animaux">
                                 <span class="slider"></span>
                             </label>
                         </div>
                     ` : ''}
                 </div>
-                
-                <h3>Options supplémentaires</h3>
+
+                <h3>Options supplementaires</h3>
                 <div class="options-list">
                     <label>
                         <input type="checkbox" id="option-menage">
-                        Ménage de fin de séjour (+2 000 DZD)
+                        Menage de fin de sejour (+2 000 DZD)
                     </label>
                     <label>
                         <input type="checkbox" id="option-transfert">
-                        Transfert aéroport (+5 000 DZD)
+                        Transfert aeroport (+5 000 DZD)
                     </label>
                 </div>
-                
-                <h3>Paiement</h3>
-                <div class="payment-methods">
-                    <label class="payment-option">
-                        <input type="radio" name="payment" value="cib" checked>
-                        <span>💳 CIB (Carte Interbancaire)</span>
-                    </label>
-                    <label class="payment-option">
-                        <input type="radio" name="payment" value="edahabia">
-                        <span>💳 Edahabia</span>
-                    </label>
-                    <label class="payment-option">
-                        <input type="radio" name="payment" value="baridimob">
-                        <span>📱 BaridiMob</span>
-                    </label>
-                    <label class="payment-option">
-                        <input type="radio" name="payment" value="especes">
-                        <span>💵 Espèces sur place</span>
-                    </label>
+
+                <h3 id="payment-heading">Paiement</h3>
+                <div class="payment-methods" role="radiogroup" aria-labelledby="payment-heading">
+                    ${createPaymentOption('cib', '💳 CIB (Carte Interbancaire)', true)}
+                    ${createPaymentOption('edahabia', '💳 Edahabia', false)}
+                    ${createPaymentOption('baridimob', '📱 BaridiMob', false)}
+                    ${createPaymentOption('especes', '💵 Especes sur place', false)}
                 </div>
-                
+
                 <div class="reservation-total">
                     <div>
                         <strong>Total</strong>
-                        <span class="total-amount">${listing.prix.toLocaleString()} DZD</span>
+                        <span class="total-amount">
+                            <data value="${listing.prix}">${listing.prix.toLocaleString()} DZD</data>
+                        </span>
                     </div>
-                    <button onclick="confirmReservation()" class="btn-confirm">Confirmer la réservation</button>
+                    <button class="btn-confirm" data-action="confirm-reservation">Confirmer la reservation</button>
                 </div>
             </div>
         </div>
     `;
-    
+
+    attachReservationEventListeners(container);
     updateVoyageursButtons();
 }
 
+/**
+ * Cree un item de selection de voyageur
+ * @param {string} type - Type de voyageur
+ * @param {string} label - Label
+ * @param {string} description - Description
+ * @param {number} value - Valeur actuelle
+ * @returns {string} HTML
+ */
+function createVoyageurItem(type, label, description, value) {
+    return `
+        <div class="voyageur-item">
+            <div>
+                <strong>${escapeHTML(label)}</strong>
+                <span>${escapeHTML(description)}</span>
+            </div>
+            <div class="counter" role="group" aria-label="${label}">
+                <button data-minus="${type}"
+                        aria-label="Reduire ${label}"
+                        class="counter-btn">−</button>
+                <span data-count="${type}" aria-live="polite">${value}</span>
+                <button data-plus="${type}"
+                        aria-label="Augmenter ${label}"
+                        class="counter-btn">+</button>
+            </div>
+        </div>
+    `;
+}
+
+/**
+ * Cree une option de paiement
+ * @param {string} value - Valeur
+ * @param {string} label - Label
+ * @param {boolean} checked - Est cochee
+ * @returns {string} HTML
+ */
+function createPaymentOption(value, label, checked) {
+    return `
+        <label class="payment-option">
+            <input type="radio" name="payment" value="${value}" ${checked ? 'checked' : ''}>
+            <span>${label}</span>
+        </label>
+    `;
+}
+
+/**
+ * Attache les event listeners a la page de reservation
+ * @param {HTMLElement} container - Conteneur
+ */
+function attachReservationEventListeners(container) {
+    // Boutons +/-
+    container.querySelectorAll('[data-minus]').forEach(btn => {
+        btn.addEventListener('click', () => updateVoyageurs(btn.dataset.minus, -1));
+    });
+
+    container.querySelectorAll('[data-plus]').forEach(btn => {
+        btn.addEventListener('click', () => updateVoyageurs(btn.dataset.plus, 1));
+    });
+
+    // Toggle autres animaux
+    const autresToggle = container.querySelector('#autres-animaux-toggle');
+    if (autresToggle) {
+        autresToggle.addEventListener('change', () => updateVoyageurs('autresAnimaux', 0));
+    }
+
+    // Bouton confirmer
+    container.querySelectorAll('[data-action="confirm-reservation"]').forEach(btn => {
+        btn.addEventListener('click', confirmReservation);
+    });
+}
+
+/**
+ * Confirme la reservation
+ */
 function confirmReservation() {
-    showToast('✅ Réservation confirmée !', 3000);
+    showToast('Reservation confirmee !');
+    DarDZ.Utils.A11y.announce('Reservation confirmee avec succes');
     setTimeout(() => {
         showPage('profil');
     }, 1500);
 }
 
-// Init app
-document.addEventListener('DOMContentLoaded', () => {
-    // Init dark mode
-    if (APP_STATE.darkMode) {
-        document.body.classList.add('dark-mode');
-    }
-    
-    // Init autocomplete
-    initAutocomplete();
-    
-    // Init page
-    showPage('accueil');
-    
-    // Update UI
-    updateVoyageursDisplay();
-    updateFavoriteButtons();
-    
-    // Load animations
-    loadAnimations();
-});
+// ============================================
+// ANIMATIONS
+// ============================================
 
+/**
+ * Charge les animations Lottie
+ */
 function loadAnimations() {
     if (typeof lottie === 'undefined') return;
-    
-    // Loader animation
+
+    // Observer pour charger les animations uniquement quand visibles
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const container = entry.target;
+                const path = container.dataset.animationPath;
+
+                if (path && !container.dataset.loaded) {
+                    lottie.loadAnimation({
+                        container: container,
+                        renderer: 'svg',
+                        loop: true,
+                        autoplay: true,
+                        path: path
+                    });
+                    container.dataset.loaded = 'true';
+                }
+
+                observer.unobserve(container);
+            }
+        });
+    });
+
+    // Observer tous les conteneurs d'animation
+    document.querySelectorAll('[data-animation-path]').forEach(container => {
+        observer.observe(container);
+    });
+
+    // Loader animation (toujours charger immediatement)
     const loaderEl = document.querySelector('#loader-anim');
     if (loaderEl) {
         lottie.loadAnimation({
@@ -708,7 +1124,95 @@ function loadAnimations() {
     }
 }
 
-// Export for global access
+// ============================================
+// INITIALISATION
+// ============================================
+
+/**
+ * Initialise l'application
+ */
+function initApp() {
+    try {
+        // Init accessibilite
+        DarDZ.Utils.A11y.init();
+
+        // Init dark mode
+        if (APP_STATE.darkMode) {
+            document.body.classList.add('dark-mode');
+        }
+
+        // Init autocomplete
+        initAutocomplete();
+
+        // Init page
+        showPage('accueil');
+
+        // Update UI
+        updateVoyageursDisplay();
+        updateFavoriteButtons();
+
+        // Load animations
+        loadAnimations();
+
+        // Global event delegation
+        setupGlobalEventListeners();
+
+        DarDZ.Utils.log.info('App initialized successfully');
+    } catch (error) {
+        DarDZ.Utils.log.error('App initialization failed:', error);
+    }
+}
+
+/**
+ * Configure les event listeners globaux
+ */
+function setupGlobalEventListeners() {
+    // Event delegation pour les actions communes
+    document.addEventListener('click', (e) => {
+        const target = e.target.closest('[data-action]');
+        if (!target) return;
+
+        const action = target.dataset.action;
+
+        switch (action) {
+            case 'navigate':
+                e.preventDefault();
+                showPage(target.dataset.page);
+                break;
+            case 'close-modal':
+                closeDetailModal();
+                break;
+        }
+    });
+
+    // Navigation clavier globale
+    document.addEventListener('keydown', (e) => {
+        // Skip links avec Tab
+        if (e.key === 'Tab' && !e.shiftKey) {
+            const skipLink = document.querySelector('.skip-link');
+            if (skipLink && document.activeElement === document.body) {
+                skipLink.focus();
+            }
+        }
+    });
+
+    // Respecter prefers-reduced-motion
+    const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+    if (mediaQuery.matches) {
+        document.documentElement.style.setProperty('--animation-duration', '0.01ms');
+    }
+}
+
+// ============================================
+// DEMARRAGE
+// ============================================
+
+document.addEventListener('DOMContentLoaded', initApp);
+
+// ============================================
+// EXPORTS GLOBAUX
+// ============================================
+
 window.showPage = showPage;
 window.toggleFavorite = toggleFavorite;
 window.openDetailModal = openDetailModal;
@@ -718,3 +1222,4 @@ window.selectDestination = selectDestination;
 window.goToReservation = goToReservation;
 window.confirmReservation = confirmReservation;
 window.toggleDarkMode = toggleDarkMode;
+window.changeModalImage = changeModalImage;

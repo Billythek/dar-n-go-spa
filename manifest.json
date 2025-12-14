@@ -1,0 +1,95 @@
+{
+    "name": "DarDZ - Locations en Algerie",
+    "short_name": "DarDZ",
+    "description": "Trouvez votre logement ideal en Algerie. Villas, appartements, riads et plus dans toutes les wilayas.",
+    "start_url": "/",
+    "display": "standalone",
+    "orientation": "portrait-primary",
+    "background_color": "#FBF7F2",
+    "theme_color": "#1E6B7B",
+    "lang": "fr-DZ",
+    "dir": "ltr",
+    "categories": ["travel", "lifestyle"],
+    "icons": [
+        {
+            "src": "/icons/icon-72.png",
+            "sizes": "72x72",
+            "type": "image/png",
+            "purpose": "any"
+        },
+        {
+            "src": "/icons/icon-96.png",
+            "sizes": "96x96",
+            "type": "image/png",
+            "purpose": "any"
+        },
+        {
+            "src": "/icons/icon-128.png",
+            "sizes": "128x128",
+            "type": "image/png",
+            "purpose": "any"
+        },
+        {
+            "src": "/icons/icon-144.png",
+            "sizes": "144x144",
+            "type": "image/png",
+            "purpose": "any"
+        },
+        {
+            "src": "/icons/icon-152.png",
+            "sizes": "152x152",
+            "type": "image/png",
+            "purpose": "any"
+        },
+        {
+            "src": "/icons/icon-192.png",
+            "sizes": "192x192",
+            "type": "image/png",
+            "purpose": "any maskable"
+        },
+        {
+            "src": "/icons/icon-384.png",
+            "sizes": "384x384",
+            "type": "image/png",
+            "purpose": "any"
+        },
+        {
+            "src": "/icons/icon-512.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "any maskable"
+        }
+    ],
+    "screenshots": [
+        {
+            "src": "/images/screenshot-mobile.png",
+            "sizes": "375x812",
+            "type": "image/png",
+            "form_factor": "narrow"
+        },
+        {
+            "src": "/images/screenshot-desktop.png",
+            "sizes": "1920x1080",
+            "type": "image/png",
+            "form_factor": "wide"
+        }
+    ],
+    "shortcuts": [
+        {
+            "name": "Explorer les logements",
+            "short_name": "Explorer",
+            "description": "Parcourir tous les logements disponibles",
+            "url": "/#explorer",
+            "icons": [{ "src": "/icons/explore.png", "sizes": "96x96" }]
+        },
+        {
+            "name": "Mes favoris",
+            "short_name": "Favoris",
+            "description": "Voir mes logements favoris",
+            "url": "/#favoris",
+            "icons": [{ "src": "/icons/heart.png", "sizes": "96x96" }]
+        }
+    ],
+    "related_applications": [],
+    "prefer_related_applications": false
+}

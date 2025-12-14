@@ -1,0 +1,51 @@
+{
+    "name": "dardz",
+    "version": "2.0.0",
+    "description": "Application SPA de location de logements en Algerie",
+    "main": "js/app.js",
+    "scripts": {
+        "start": "npx serve . -p 8000",
+        "dev": "npx serve . -p 8000",
+        "lint": "eslint js/",
+        "lint:fix": "eslint js/ --fix",
+        "format": "prettier --write \"**/*.{js,css,html,json,md}\"",
+        "format:check": "prettier --check \"**/*.{js,css,html,json,md}\"",
+        "test": "echo \"No tests configured yet\" && exit 0",
+        "build": "echo \"Static site - no build required\"",
+        "validate": "npm run lint && npm run format:check"
+    },
+    "keywords": [
+        "algerie",
+        "location",
+        "logement",
+        "villa",
+        "appartement",
+        "vacances",
+        "spa",
+        "dz"
+    ],
+    "author": "DarDZ Team",
+    "license": "MIT",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/Billythek/dar-n-go-spa"
+    },
+    "bugs": {
+        "url": "https://github.com/Billythek/dar-n-go-spa/issues"
+    },
+    "homepage": "https://dardz.dz",
+    "devDependencies": {
+        "eslint": "^8.57.0",
+        "prettier": "^3.2.0",
+        "serve": "^14.2.0"
+    },
+    "engines": {
+        "node": ">=18.0.0"
+    },
+    "browserslist": [
+        "> 1%",
+        "last 2 versions",
+        "not dead",
+        "not ie 11"
+    ]
+}

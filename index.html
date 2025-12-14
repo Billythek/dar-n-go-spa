@@ -3,11 +3,53 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DarDZ - Locations en Algérie</title>
+
+    <!-- SEO Meta Tags -->
+    <title>DarDZ - Locations en Algerie | Villas, Appartements, Riads</title>
+    <meta name="description" content="DarDZ - La premiere plateforme algerienne de location de logements. Trouvez des villas, appartements et riads dans toutes les wilayas d'Algerie. Reservez votre sejour ideal.">
+    <meta name="keywords" content="location, algerie, logement, villa, appartement, riad, vacances, dz, airbnb algerie, hebergement">
+    <meta name="author" content="DarDZ">
+    <meta name="robots" content="index, follow">
+    <meta name="theme-color" content="#1E6B7B">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://dardz.dz/">
+    <meta property="og:title" content="DarDZ - Locations en Algerie">
+    <meta property="og:description" content="Trouvez votre logement ideal en Algerie. Villas, appartements, riads dans toutes les wilayas.">
+    <meta property="og:image" content="https://dardz.dz/images/og-image.jpg">
+    <meta property="og:locale" content="fr_DZ">
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="https://dardz.dz/">
+    <meta name="twitter:title" content="DarDZ - Locations en Algerie">
+    <meta name="twitter:description" content="Trouvez votre logement ideal en Algerie">
+    <meta name="twitter:image" content="https://dardz.dz/images/og-image.jpg">
+
+    <!-- PWA -->
+    <link rel="manifest" href="/manifest.json">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="DarDZ">
+    <link rel="apple-touch-icon" href="/icons/icon-192.png">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/icons/favicon.svg">
+    <link rel="icon" type="image/png" sizes="32x32" href="/icons/icon-32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/icons/icon-16.png">
+
+    <!-- Preconnect for performance -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://images.unsplash.com">
+    <link rel="preconnect" href="https://i.pravatar.cc">
+
+    <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=DM+Sans:wght@400;500;600;700&family=Noto+Kufi+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js"></script>
+
+    <!-- External Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js" defer></script>
     <style>
         :root {
             --terracotta: #C65D3B;
@@ -1353,7 +1395,13 @@
     </style>
 </head>
 <body>
-    <div class="pattern-bg"></div>
+    <!-- Skip Link pour accessibilite -->
+    <a href="#main-content" class="skip-link">Aller au contenu principal</a>
+
+    <!-- Region pour annonces accessibilite -->
+    <div id="a11y-announcer" class="sr-only" role="status" aria-live="polite" aria-atomic="true"></div>
+
+    <div class="pattern-bg" aria-hidden="true"></div>
 
     <!-- Loader -->
     <div class="loader" id="loader">
@@ -2163,6 +2211,28 @@
 
         // Show loader initially
         document.getElementById('loader').classList.add('active');
+    </script>
+
+    <!-- Application Scripts -->
+    <script src="js/utils.js"></script>
+    <script src="js/data.js"></script>
+    <script src="js/app.js"></script>
+
+    <!-- Service Worker Registration -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js')
+                    .then(reg => {
+                        if (typeof DarDZ !== 'undefined' && DarDZ.Utils) {
+                            DarDZ.Utils.log.info('Service Worker registered');
+                        }
+                    })
+                    .catch(err => {
+                        console.error('Service Worker registration failed:', err);
+                    });
+            });
+        }
     </script>
 </body>
 </html>
